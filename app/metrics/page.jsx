@@ -1,15 +1,16 @@
-import AccuracyBar from '@/components/Charts/AccuracyBar'
-import MetricsLine from '@/components/Charts/MetricsLine'
-import React from 'react'
 
-const matrix = () => {
+import AccuracyBar from "@/components/Charts/AccuracyBar";
+import { F1Line } from "@/components/Charts/F1Line";
+import { PrecisionLine } from "@/components/Charts/PrecisionLine";
+import { RecallLine } from "@/components/Charts/RecallLine";
+
+export default function ModelsPage() {
   return (
     <>
-      <h1>Model Metrics</h1>
       <AccuracyBar />
-      <MetricsLine />
+      <PrecisionLine />
+      <RecallLine />
+      <F1Line />
     </>
-  )
+  );
 }
-
-export default matrix
