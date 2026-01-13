@@ -1,0 +1,82 @@
+[
+  {
+    "feature": "src_bytes_log",
+    "importance": 0.8321607581920814
+  },
+  {
+    "feature": "protocol_type",
+    "importance": 0.07187457778200729
+  },
+  {
+    "feature": "dst_host_srv_count",
+    "importance": 0.050528322376280244
+  },
+  {
+    "feature": "hot",
+    "importance": 0.023775878632678767
+  },
+  {
+    "feature": "dst_bytes_log",
+    "importance": 0.021660463016952326
+  },
+  {
+    "feature": "num_failed_logins",
+    "importance": 0.0
+  },
+  {
+    "feature": "urgent",
+    "importance": 0.0
+  },
+  {
+    "feature": "wrong_fragment",
+    "importance": 0.0
+  },
+  {
+    "feature": "land",
+    "importance": 0.0
+  },
+  {
+    "feature": "logged_in",
+    "importance": 0.0
+  },
+  {
+    "feature": "root_shell",
+    "importance": 0.0
+  },
+  {
+    "feature": "su_attempted",
+    "importance": 0.0
+  },
+  {
+    "feature": "num_file_creations",
+    "importance": 0.0
+  },
+  {
+    "feature": "srv_count",
+    "importance": 0.0
+  },
+  {
+    "feature": "serror_rate",
+    "importance": 0.0
+  },
+  {
+    "feature": "srv_serror_rate",
+    "importance": 0.0
+  },
+  {
+    "feature": "rerror_rate",
+    "importance": 0.0
+  },
+  {
+    "feature": "num_outbound_cmds",
+    "importance": 0.0
+  },
+  {
+    "feature": "is_host_login",
+    "importance": 0.0
+  },
+  {
+    "feature": "is_guest_login",
+    "importance": 0.0
+  }
+]

@@ -1,0 +1,82 @@
+[
+  {
+    "feature": "src_bytes_log",
+    "importance": 0.3413464426994324
+  },
+  {
+    "feature": "protocol_type",
+    "importance": 0.19668154418468475
+  },
+  {
+    "feature": "dst_host_srv_rerror_rate",
+    "importance": 0.10599837452173233
+  },
+  {
+    "feature": "hot",
+    "importance": 0.06673286855220795
+  },
+  {
+    "feature": "wrong_fragment",
+    "importance": 0.0448116771876812
+  },
+  {
+    "feature": "dst_host_srv_count",
+    "importance": 0.035292841494083405
+  },
+  {
+    "feature": "dst_host_same_src_port_rate",
+    "importance": 0.0288222823292017
+  },
+  {
+    "feature": "logged_in",
+    "importance": 0.027276957407593727
+  },
+  {
+    "feature": "count",
+    "importance": 0.02625405602157116
+  },
+  {
+    "feature": "dst_bytes_log",
+    "importance": 0.02258107252418995
+  },
+  {
+    "feature": "dst_host_srv_diff_host_rate",
+    "importance": 0.010353284887969494
+  },
+  {
+    "feature": "num_failed_logins",
+    "importance": 0.009745337069034576
+  },
+  {
+    "feature": "dst_host_same_srv_rate",
+    "importance": 0.009557094424962997
+  },
+  {
+    "feature": "flag",
+    "importance": 0.008144727908074856
+  },
+  {
+    "feature": "service",
+    "importance": 0.007598831318318844
+  },
+  {
+    "feature": "duration_log",
+    "importance": 0.006346604786813259
+  },
+  {
+    "feature": "dst_host_rerror_rate",
+    "importance": 0.0062623885460197926
+  },
+  {
+    "feature": "dst_host_serror_rate",
+    "importance": 0.005829970818012953
+  },
+  {
+    "feature": "srv_count",
+    "importance": 0.00537120969966054
+  },
+  {
+    "feature": "diff_srv_rate",
+    "importance": 0.004987838678061962
+  }
+]

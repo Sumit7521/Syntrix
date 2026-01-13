@@ -10,10 +10,10 @@ import {
   ResponsiveContainer
 } from "recharts";
 
-import modelData from "@/Data/model_metrics.json";
+export function RecallLine({ data }) {
+  if (!data) return null;
 
-export function RecallLine() {
-  const data = modelData.models.map(m => ({
+  const chartData = data.map(m => ({
     name: m.name,
     normal: m.normal.recall,
     attack: m.attack.recall
@@ -21,16 +21,33 @@ export function RecallLine() {
 
   return (
     <div style={{ width: "100%", height: 350 }}>
-      <h3>Recall (Normal vs Attack)</h3>
+      {/* Header removed */}
 
       <ResponsiveContainer>
-        <LineChart data={data}>
-          <XAxis dataKey="name" />
-          <YAxis domain={[0.9, 1]} />
-          <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="normal" />
-          <Line type="monotone" dataKey="attack" />
+        <LineChart data={chartData}>
+          <XAxis dataKey="name" tick={{ fontSize: 12, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
+          <YAxis domain={[0.9, 1]} tick={{ fontSize: 12, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
+          <Tooltip 
+             cursor={{ stroke: '#e5e7eb' }}
+             contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+          />
+          <Legend wrapperStyle={{ paddingTop: '10px' }}/>
+          <Line 
+            type="monotone" 
+            dataKey="normal" 
+            stroke="#14b8a6" 
+            strokeWidth={3} 
+            dot={{ r: 4, strokeWidth: 2 }}
+            activeDot={{ r: 6 }} 
+          />
+          <Line 
+            type="monotone" 
+            dataKey="attack" 
+            stroke="#f43f5e" 
+            strokeWidth={3} 
+            dot={{ r: 4, strokeWidth: 2 }}
+            activeDot={{ r: 6 }}
+          />
         </LineChart>
       </ResponsiveContainer>
     </div>

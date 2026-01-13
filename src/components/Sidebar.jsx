@@ -1,53 +1,3 @@
-// "use client";
-
-// import React, { useEffect, useState } from "react";
-
-// const Sidebar = () => {
-//   const [data, setData] = useState(null);
-//   const [error, setError] = useState(null);
-
-//   useEffect(() => {
-//     const callApi = async () => {
-//       try {
-//         const res = await fetch(
-//           "https://ml-models-backend-wh0k.onrender.com/"
-//         );
-
-//         if (!res.ok) {
-//           throw new Error(`HTTP error ${res.status}`);
-//         }
-
-//         const json = await res.json();
-//         setData(json);
-//       } catch (err) {
-//         setError(err.message);
-//       }
-//     };
-
-//     callApi();
-//   }, []);
-
-//   return (
-//     <div>
-//       <h2>Sidebar</h2>
-
-//       {data && (
-//         <pre style={{ color: "green" }}>
-//           {JSON.stringify(data, null, 2)}
-//         </pre>
-//       )}
-
-//       {error && (
-//         <pre style={{ color: "red" }}>
-//           {error}
-//         </pre>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default Sidebar;
-// components/Sidebar.jsx
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -56,29 +6,53 @@ const links = [
   { name: "Dashboard", href: "/" },
   { name: "Model Metrics", href: "/metrics" },
   { name: "Predict Attack", href: "/predict" },
-  { name: "All Models", href: "/models" }
+  { name: "Correlation Heatmap", href: "/heatmap" },
+  { name: "Features", href: "/Feature" }
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside style={{ width: 220, padding: 20, borderRight: "1px solid #ddd" }}>
-      <h3>ML Dashboard</h3>
-      <nav>
-        {links.map(link => (
-          <div key={link.href} style={{ margin: "12px 0" }}>
-            <Link
-              href={link.href}
-              style={{
-                fontWeight: pathname === link.href ? "bold" : "normal"
-              }}
-            >
-              {link.name}
-            </Link>
-          </div>
-        ))}
+    <aside className="w-64 min-h-screen bg-black text-white p-6 border-r border-gray-800 flex flex-col shadow-2xl relative overflow-hidden">
+      {/* Subtle background accent */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-teal-400"></div>
+
+      <h3 className="text-3xl font-bold mb-12 tracking-wide font-space bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+        SyntriX
+      </h3>
+      
+      <nav className="flex-1 space-y-2">
+        {links.map((link) => {
+          const isActive = pathname === link.href;
+          return (
+            <div key={link.href}>
+              <Link
+                href={link.href}
+                className={`group flex items-center py-3 px-4 rounded-xl transition-all duration-300 ease-out ${
+                  isActive
+                    ? "bg-indigo-600 text-white shadow-lg shadow-indigo-900/20 translate-x-1"
+                    : "text-gray-400 hover:bg-gray-900 hover:text-white hover:translate-x-1"
+                }`}
+              >
+                {/* Optional: Add icons here if available later */}
+                <span className={`font-medium tracking-wide ${isActive ? 'font-semibold' : ''}`}>
+                  {link.name}
+                </span>
+                
+                {/* Active Indicator Dot */}
+                {isActive && (
+                  <span className="ml-auto w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                )}
+              </Link>
+            </div>
+          );
+        })}
       </nav>
+      
+      <div className="mt-auto pt-6 border-t border-gray-900">
+        <p className="text-xs text-gray-600 font-mono text-center">v2.0.0 Stable</p>
+      </div>
     </aside>
   );
 }
