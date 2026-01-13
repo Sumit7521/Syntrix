@@ -1,26 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { predictSchema } from "@/Data/predictSchema";
 import { predictAttack } from "@/utils/api";
 
-// initialize defaults ONCE
-const defaultFormValues = {};
-predictSchema.forEach(f => {
-  defaultFormValues[f.key] = 0;
-});
-
-const MODELS = ["xgb", "knn", "dt", "rf", "cat"];
+const MODELS = [
+  { value: "xgb", label: "XGBoost" },
+  { value: "rf", label: "Random Forest" },
+  { value: "dt", label: "Decision Tree" },
+  { value: "knn", label: "K-Nearest Neighbors" },
+  { value: "svc", label: "Support Vector Machine" },
+  { value: "lr", label: "Logistic Regression" },
+  { value: "cat", label: "CatBoost" },
+  { value: "ada", label: "AdaBoost" },
+  { value: "gb", label: "Gradient Boosting" }
+];
 
 export default function PredictPage() {
+  // ✅ Hydration-safe defaults
+  const defaultFormValues = useMemo(() => {
+    const values = {};
+    predictSchema.forEach(f => {
+      values[f.key] = 0;
+    });
+    return values;
+  }, []);
+
   const [form, setForm] = useState(defaultFormValues);
   const [model, setModel] = useState("xgb");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // ---------------- HANDLERS ----------------
+
   const handleChange = (key, value, type) => {
     if (type === "binary" && !["0", "1"].includes(value)) return;
+    if (type === "rate" && (isNaN(value) || value < 0 || value > 1)) return;
 
     setForm(prev => ({
       ...prev,
@@ -30,19 +46,29 @@ export default function PredictPage() {
 
   const fillRandomValues = () => {
     const randomData = {};
+
     predictSchema.forEach(field => {
-      randomData[field.key] =
-        field.type === "binary"
-          ? Math.random() < 0.5 ? 0 : 1
-          : 0;
+      if (field.type === "binary") {
+        randomData[field.key] = Math.random() < 0.5 ? 0 : 1;
+      } 
+      else if (field.type === "rate") {
+        randomData[field.key] = Number(Math.random().toFixed(2));
+      } 
+      else {
+        const min = field.min ?? 0;
+        const max = field.max ?? min + 10;
+        randomData[field.key] =
+          Math.floor(Math.random() * (max - min + 1)) + min;
+      }
     });
+
     setForm(randomData);
   };
 
   const fillAllOnes = () => {
     const onesData = {};
     predictSchema.forEach(field => {
-      onesData[field.key] = 1;
+      onesData[field.key] = field.type === "rate" ? 1.0 : 1;
     });
     setForm(onesData);
   };
@@ -73,17 +99,19 @@ export default function PredictPage() {
     }
   };
 
+  // ---------------- UI ----------------
+
   return (
     <>
       <h1>Predict Attack</h1>
 
-      {/* MODEL SELECTOR */}
+      {/* MODEL SELECT */}
       <div style={{ marginBottom: 16 }}>
         <label>Model: </label>
         <select value={model} onChange={e => setModel(e.target.value)}>
           {MODELS.map(m => (
-            <option key={m} value={m}>
-              {m.toUpperCase()}
+            <option key={m.value} value={m.value}>
+              {m.label}
             </option>
           ))}
         </select>
@@ -102,10 +130,18 @@ export default function PredictPage() {
             <label>{field.key}</label>
             <input
               type="number"
-              min={field.type === "binary" ? 0 : field.min}
-              max={field.type === "binary" ? 1 : undefined}
-              step={1}
-              value={form[field.key]}
+              min={
+                field.type === "binary" ? 0 :
+                field.type === "rate" ? 0 :
+                field.min
+              }
+              max={
+                field.type === "binary" ? 1 :
+                field.type === "rate" ? 1 :
+                field.max
+              }
+              step={field.type === "rate" ? "0.01" : 1}
+              value={form[field.key] ?? 0}
               onChange={e =>
                 handleChange(field.key, e.target.value, field.type)
               }
