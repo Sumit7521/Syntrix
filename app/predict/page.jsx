@@ -5,6 +5,7 @@ import { predictSchema } from "@/Data/predictSchema";
 import { predictAttack } from "@/utils/api";
 
 const MODELS = [
+  { value: "all", label: "All Models" },
   { value: "xgb", label: "XGBoost" },
   { value: "rf", label: "Random Forest" },
   { value: "dt", label: "Decision Tree" },
@@ -72,14 +73,30 @@ export default function PredictPage() {
     setError(null);
     setResult(null);
 
-    try {
-      const payload = {};
-      predictSchema.forEach(f => {
-        payload[f.key] = form[f.key];
-      });
+    const payload = {};
+    predictSchema.forEach(f => {
+      payload[f.key] = form[f.key];
+    });
 
-      const data = await predictAttack(payload, model);
-      setResult(data);
+    try {
+      if (model === "all") {
+        const modelPromises = MODELS
+          .filter(m => m.value !== "all")
+          .map(async (m) => {
+             try {
+               const data = await predictAttack(payload, m.value);
+               return { modelName: m.label, data, error: null };
+             } catch (err) {
+               return { modelName: m.label, data: null, error: err.message || "Error" };
+             }
+          });
+        
+        const results = await Promise.all(modelPromises);
+        setResult(results);
+      } else {
+        const data = await predictAttack(payload, model);
+        setResult(data);
+      }
     } catch (err) {
       if (err.response) {
         setError(
@@ -175,7 +192,53 @@ export default function PredictPage() {
       </div>
 
       {/* Result Display */}
-      {result && (
+      {result && Array.isArray(result) && (
+        <div className="mt-8 bg-white p-8 rounded-xl shadow-lg border border-gray-100 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <h3 className="text-xl font-bold font-space text-gray-900 mb-6">Model Comparison Results</h3>
+            <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left text-gray-600">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                        <tr>
+                            <th className="px-6 py-3 rounded-l-lg">Model Name</th>
+                            <th className="px-6 py-3">Prediction</th>
+                            <th className="px-6 py-3 rounded-r-lg">Confidence</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {result.map((row, idx) => (
+                            <tr key={idx} className="bg-white border-b hover:bg-gray-50">
+                                <td className="px-6 py-4 font-medium text-gray-900">{row.modelName}</td>
+                                <td className="px-6 py-4">
+                                    {row.error ? (
+                                        <span className="text-red-500">Error</span>
+                                    ) : (
+                                        <span className={`px-2 py-1 rounded text-xs font-bold ${row.data?.prediction === 'Normal' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                            {row.data?.prediction || "Unknown"}
+                                        </span>
+                                    )}
+                                </td>
+                                <td className="px-6 py-4 font-mono text-xs text-gray-500">
+                                    {row.error ? "-" : (
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-full bg-gray-200 rounded-full h-1.5 max-w-[100px]">
+                                                <div 
+                                                    className="bg-indigo-600 h-1.5 rounded-full" 
+                                                    style={{ width: `${(row.data?.confidence || 0) * 100}%` }}
+                                                ></div>
+                                            </div>
+                                            <span>{((row.data?.confidence || 0) * 100).toFixed(1)}%</span>
+                                        </div>
+                                    )}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      )}
+
+      {result && !Array.isArray(result) && (
         <div className="mt-8 bg-gray-900 text-white p-8 rounded-xl shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div className="flex items-center justify-between mb-4">
               <h3 className="text-xl font-bold font-space text-teal-400">Analysis Complete</h3>

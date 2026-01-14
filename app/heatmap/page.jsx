@@ -2,7 +2,6 @@
 
 import React from 'react';
 import CorrelationHeatmap from "@/components/Charts/CorrelationHeatmap";
-import FeatureImportanceChart from "@/components/Charts/FeatureImportanceChart";
 
 // Analytics Components
 import InsightCard from "@/components/Analytics/InsightCard";
@@ -74,16 +73,6 @@ const ModelsPage = () => {
                 <span className="font-semibold">Insight:</span> <span className="font-mono">neptune</span> (DoS) and <span className="font-mono">smurf</span> (DoS) are the dominant attack vectors, indicating high prevalence of Denial of Service attempts.
             </div>
         </div>
-      </section>
-
-      {/* 3. Feature Importance */}
-      <section className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-         <h3 className="text-lg font-semibold mb-2 text-gray-800">Feature Importance Analysis</h3>
-         <p className="text-sm text-gray-500 mb-6">Key features contributing to model decision making.</p>
-         <FeatureImportanceChart />
-         <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100 text-sm text-blue-800">
-             <span className="font-semibold">Insight:</span> Features such as <span className="font-mono font-semibold">src_bytes</span>, <span className="font-mono font-semibold">dst_bytes</span>, and <span className="font-mono font-semibold">count</span> consistently rank high across models. This confirms that traffic volume and connection frequency are critical indicators of malicious activity.
-         </div>
       </section>
 
       {/* 4. Feature Distribution Comparison */}
