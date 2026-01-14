@@ -3,11 +3,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const links = [
-  { name: "Dashboard", href: "/" },
+  { name: "Dashboard", href: "/dashboard" },
   { name: "Model Metrics", href: "/metrics" },
   { name: "Predict Attack", href: "/predict" },
   { name: "Correlation Heatmap", href: "/heatmap" },
-  { name: "Features", href: "/Feature" }
+  { name: "Features", href: "/feature" }
 ];
 
 export default function Sidebar() {
@@ -18,9 +18,11 @@ export default function Sidebar() {
       {/* Subtle background accent */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-teal-400"></div>
 
-      <h3 className="text-3xl font-bold mb-12 tracking-wide font-space bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-        SyntriX
-      </h3>
+      <Link href="/" className="block mb-12 group">
+        <h3 className="text-3xl font-bold tracking-wide font-space bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400 group-hover:from-indigo-400 group-hover:to-teal-400 transition-all duration-300">
+          SyntriX
+        </h3>
+      </Link>
       
       <nav className="flex-1 space-y-2">
         {links.map((link) => {

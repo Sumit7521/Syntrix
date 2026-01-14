@@ -1,0 +1,45 @@
+/* Main Container */
+.feature-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    /* space-y-8 */
+}
+
+/* Header */
+.feature-header {
+    border-bottom: 1px solid #f3f4f6;
+    /* border-gray-100 */
+    padding-bottom: 1.5rem;
+    /* pb-6 */
+}
+
+.feature-title {
+    font-size: 2.25rem;
+    /* text-4xl */
+    font-weight: 700;
+    /* font-bold */
+    color: #111827;
+    /* text-gray-900 */
+    margin-bottom: 0.5rem;
+    /* mb-2 */
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+.feature-subtitle {
+    color: #6b7280;
+    /* text-gray-500 */
+}
+
+/* Chart Card */
+.chart-container {
+    background-color: white;
+    padding: 1.5rem;
+    /* p-6 */
+    border-radius: 1rem;
+    /* rounded-2xl */
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    /* shadow-sm */
+    border: 1px solid #f3f4f6;
+    /* border-gray-100 */
+}

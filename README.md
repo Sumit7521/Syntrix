@@ -1,36 +1,107 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# SyntriX | AI-Powered Autonomous Network Defense
 
-## Getting Started
+![SyntriX Hero Banner](public/hero.png)
 
-First, run the development server:
+**SyntriX** is a next-generation security dashboard that uses advanced machine learning ensemble models (Random Forest, XGBoost, AdaBoost) to detect, analyze, and neutralize network threats in real-time.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Designed for enterprise security operations centers (SOCs), SyntriX provides deep visibility into network traffic, feature importance analysis, and predictive threat modelling.
+
+---
+
+## 🚀 Key Features
+
+### 🛡️ Autonomous Threat Detection
+- **Real-Time Inference**: Analyzes packet data with <10ms latency using pre-trained ML models.
+- **Ensemble Learning**: compare performance across multiple classifiers (RF, XGB, DT, AdaBoost).
+- **Attack Classification**: Identifies specific attack vectors (DoS, Probe, U2R, R2L).
+
+### 📊 Deep Analytics & Forensics
+- **Feature Importance**: Visualizes which network parameters (e.g., `src_bytes`, `dst_host_count`) triggered the alert.
+- **Correlation Heatmaps**: Interactive heatmaps to uncover hidden relationships between network features.
+- **Model Metrics**: Detailed breakdown of Accuracy, Precision, Recall, and F1-Scores.
+
+### 🌐 Modern Enterprise UX
+- **Professional Landing Page**: High-trust, animation-driven entrance.
+- **Responsive Dashboard**: Mobile-optimized sidebar and layout.
+- **Dark Mode**: Engineered "Deep Navy" theme for reduced eye strain in dark SOC environments.
+
+---
+
+## 🛠️ Technology Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **UI Library**: React 19
+- **Styling**: Custom CSS Variables (No external UI libraries for core layout)
+- **Animations**: Framer Motion
+- **Visualization**: Recharts
+- **Icons**: React Icons
+
+---
+
+## 📂 Project Structure
+
+The project uses the **Next.js App Router** with **Route Groups** to manage different layouts.
+
+```
+c:\Users\LENOVO\Desktop\SyntriX
+├── app/
+│   ├── (main)/                 # Application Pages (Sidebar Layout)
+│   │   ├── dashboard/          # Main System Overview
+│   │   ├── feature/            # Feature Importance Analysis
+│   │   ├── heatmap/            # Correlation Heatmaps
+│   │   ├── metrics/            # Model Performance Metrics
+│   │   ├── predict/            # Interactive Attack Prediction
+│   │   └── layout.js           # Layout with Sidebar
+│   ├── layout.js               # Root Layout (Clean, for Landing Page)
+│   ├── page.js                 # Landing Page (Marketing)
+│   ├── globals.css             # Base Styles
+│   └── landing.css             # Landing Page Specific Styles
+├── src/
+│   ├── components/             # Reusable UI Components
+│   │   ├── Charts/             # Visualization Components
+│   │   ├── Sidebar.jsx         # Navigation Sidebar
+│   │   └── ...
+└── public/                     # Static Assets
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## ⚡ Getting Started
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Prerequisites
+- Node.js 18.17 or later
 
-## Learn More
+### Installation
 
-To learn more about Next.js, take a look at the following resources:
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/yourusername/syntrix.git
+    cd syntrix
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2.  Install dependencies:
+    ```bash
+    npm install
+    # Note: Requires framer-motion, recharts, react-icons
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3.  Run the development server:
+    ```bash
+    npm run dev
+    ```
 
-## Deploy on Vercel
+4.  Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🎨 Layout System
+
+SyntriX uses a **Dual Layout System**:
+1.  **Landing Page (`/`)**: Uses `app/layout.js`. A clean, full-screen marketing layout without persistent navigation.
+2.  **Dashboard App (`/dashboard`, `/predict`, etc.)**: Moved into `app/(main)/`. These pages inherit `app/(main)/layout.js`, which includes the **Sidebar** and the main content wrapper.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

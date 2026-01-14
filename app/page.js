@@ -1,58 +1,131 @@
+"use client";
+
 import React from 'react';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import "./landing.css";
 
-const Card = ({ title, value, change, accentColor }) => (
-  <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
-    <h3 className="text-gray-500 text-sm font-medium tracking-wide uppercase mb-2">{title}</h3>
-    <div className="flex items-end justify-between">
-      <span className="text-4xl font-bold text-gray-900 font-space">{value}</span>
-      <span className={`text-xs font-semibold px-2 py-1 rounded-full bg-${accentColor}-50 text-${accentColor}-600`}>
-        {change}
-      </span>
-    </div>
-  </div>
-);
-
-const Dashboard = () => {
+const LandingPage = () => {
   return (
-    <div className="space-y-8">
-      <header className="flex justify-between items-end pb-6 border-b border-gray-100">
-        <div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">System Overview</h1>
-          <p className="text-gray-500">Real-time monitoring and security insights.</p>
-        </div>
-        <div className="flex gap-3">
-          <button className="px-5 py-2 bg-indigo-600 text-white rounded-lg font-medium shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-colors">
-            Export Report
-          </button>
-        </div>
+    <div className="landing-container">
+      <div className="bg-grid"></div>
+
+      {/* Header */}
+      <header className="landing-header">
+        <div className="brand-logo">SyntriX</div>
+        <Link href="/dashboard" className="nav-cta">
+          Go to Console
+        </Link>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card title="Total Models" value="12" change="+2 Active" accentColor="indigo" />
-        <Card title="Attacks Prevented" value="843" change="+12% vs last week" accentColor="teal" />
-        <Card title="Avg. Response" value="45ms" change="-5ms Improvement" accentColor="indigo" />
-        <Card title="System Health" value="98.2%" change="Optimal" accentColor="teal" />
-      </div>
+      {/* Hero Section */}
+      <section className="hero-section">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <span className="hero-badge">AI-Powered Security V2.0</span>
+        </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 min-h-[300px] flex flex-col justify-center items-center text-center">
-          <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
-            <span className="text-2xl">📊</span>
-          </div>
-          <h3 className="text-lg font-semibold text-gray-900">Traffic Analysis</h3>
-          <p className="text-gray-400 text-sm mt-2">Real-time traffic graph placeholder</p>
-        </div>
+        <motion.h1
+          className="hero-title"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          Autonomous Network Defense at Scale
+        </motion.h1>
 
-        <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 min-h-[300px] flex flex-col justify-center items-center text-center">
-          <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
-            <span className="text-2xl">🛡️</span>
-          </div>
-          <h3 className="text-lg font-semibold text-gray-900">Threat Map</h3>
-          <p className="text-gray-400 text-sm mt-2">Global threat distribution placeholder</p>
+        <motion.p
+          className="hero-subtitle"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          SyntriX uses advanced ensemble learning to detect, analyze, and neutralize network threats with 99.9% accuracy.
+          Monitor your infrastructure in real-time.
+        </motion.p>
+
+        <motion.div
+          className="cta-group"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          <Link href="/dashboard" className="btn-primary">
+            Launch Dashboard
+          </Link>
+          <Link href="https://github.com" className="btn-secondary">
+            View Documentation
+          </Link>
+        </motion.div>
+      </section>
+
+      {/* Stats Section */}
+      <motion.div
+        className="stats-section"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="stat-item">
+          <span className="stat-value">2.4M+</span>
+          <span className="stat-label">Packets Analyzed</span>
         </div>
-      </div>
+        <div className="stat-item">
+          <span className="stat-value">99.9%</span>
+          <span className="stat-label">Detection Accuracy</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-value">&lt;10ms</span>
+          <span className="stat-label">Inference Latency</span>
+        </div>
+      </motion.div>
+
+      {/* Features Section */}
+      <section className="features-section">
+        <motion.div
+          className="features-grid"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ staggerChildren: 0.1 }}
+        >
+          <FeatureCard
+            icon="⚡"
+            title="Real-Time Inference"
+            desc="Deploy random forest and XGBoost models that adapt to new attack vectors instantly."
+          />
+          <FeatureCard
+            icon="🔍"
+            title="Deep Forensics"
+            desc="Granular feature importance analysis to understand exactly why a packet was flagged."
+          />
+          <FeatureCard
+            icon="🛡️"
+            title="Proactive Defense"
+            desc="Predictive analytics that identify vulnerabilities before they can be exploited."
+          />
+        </motion.div>
+      </section>
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard;
+const FeatureCard = ({ icon, title, desc }) => (
+  <motion.div
+    className="feature-card"
+    variants={{
+      hidden: { opacity: 0, y: 20 },
+      visible: { opacity: 1, y: 0 }
+    }}
+  >
+    <div className="feature-icon-box">{icon}</div>
+    <h3 className="feature-title">{title}</h3>
+    <p className="feature-desc">{desc}</p>
+  </motion.div>
+);
+
+export default LandingPage;
