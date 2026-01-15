@@ -5,6 +5,7 @@ import {
   Bar,
   XAxis,
   YAxis,
+  Tooltip,
   ResponsiveContainer
 } from "recharts";
 import { useState, useEffect } from "react";
@@ -38,6 +39,7 @@ export default function AccuracyBar({ data }) {
             height={shouldRotate ? 100 : 30}
           />
           <YAxis domain={[0.9, 1]} tick={{ fontSize: 12, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
+          <Tooltip cursor={{ fill: 'transparent' }} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
           <Bar dataKey="accuracy" name="Accuracy" fill="black" radius={[6, 6, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>

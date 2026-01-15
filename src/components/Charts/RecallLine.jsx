@@ -6,6 +6,7 @@ import {
   XAxis,
   YAxis,
   Legend,
+  Tooltip,
   ResponsiveContainer
 } from "recharts";
 import { useState, useEffect } from "react";
@@ -47,6 +48,7 @@ export function RecallLine({ data }) {
             height={shouldRotate ? 100 : 30}
           />
           <YAxis domain={[0.9, 1]} tick={{ fontSize: 12, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
+          <Tooltip cursor={false} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
           <Legend wrapperStyle={{ paddingTop: '10px' }}/>
           <Line 
             type="monotone" 
