@@ -7,10 +7,15 @@
     margin-right: auto;
     background-color: #ffffff;
     min-height: 100vh;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+    padding: 1rem;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .feature-container {
+        padding: 2rem;
+        gap: 2rem;
+    }
 }
 
 /* Header */
@@ -21,14 +26,21 @@
 }
 
 .feature-title {
-    font-size: 2.5rem;
-    /* text-4xl+ */
+    font-size: 1.875rem;
+    /* text-3xl mobile */
     font-weight: 700;
     color: #111827;
     /* text-gray-900 */
     margin-bottom: 0.5rem;
     font-family: 'Space Grotesk', sans-serif;
     letter-spacing: -0.02em;
+}
+
+@media (min-width: 768px) {
+    .feature-title {
+        font-size: 2.5rem;
+        /* text-4xl+ */
+    }
 }
 
 .feature-subtitle {
@@ -79,24 +91,14 @@
     font-size: 1.25rem;
 }
 
-.icon-blue {
-    background-color: #eff6ff;
-    color: #3b82f6;
-}
-
-/* blue-50, blue-500 */
-.icon-purple {
-    background-color: #faf5ff;
-    color: #a855f7;
-}
-
-/* purple-50, purple-500 */
+.icon-blue,
+.icon-purple,
 .icon-green {
-    background-color: #f0fdf4;
-    color: #22c55e;
+    background-color: #f3f4f6;
+    /* bg-gray-100 */
+    color: #111827;
+    /* text-gray-900 */
 }
-
-/* green-50, green-500 */
 
 .stat-label {
     font-size: 0.875rem;
@@ -117,15 +119,15 @@
 /* Chart Container */
 .chart-container {
     background-color: #ffffff;
-    padding: 2rem;
-    padding-bottom: 4rem;
+    padding: 1rem;
+    padding-bottom: 1rem;
     /* Extra space at bottom */
     border-radius: 1rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     border: 1px solid #f3f4f6;
     height: auto;
     /* Allow dynamic expansion */
-    min-height: 700px;
+    min-height: 500px;
     /* Base minimum */
     display: flex;
     flex-direction: column;

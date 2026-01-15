@@ -5,12 +5,21 @@ import {
   Line,
   XAxis,
   YAxis,
-  Tooltip,
   Legend,
   ResponsiveContainer
 } from "recharts";
+import { useState, useEffect } from "react";
 
 export function PrecisionLine({ data }) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   if (!data) return null;
 
   const chartData = data.map(m => ({
@@ -19,8 +28,10 @@ export function PrecisionLine({ data }) {
     attack: m.attack.precision
   }));
 
+  const shouldRotate = (isMobile && data.length >= 3) || data.length >= 5;
+
   return (
-    <div style={{ width: "100%", height: 380 }}>
+    <div className="w-full h-[300px] md:h-[380px]">
       {/* Header removed */}
 
       <ResponsiveContainer>
@@ -30,16 +41,12 @@ export function PrecisionLine({ data }) {
             tick={{ fontSize: 12, fill: "#9ca3af", fontWeight: 'bold' }} 
             axisLine={false} 
             tickLine={false}
-            angle={data.length >= 5 ? -45 : 0}
-            textAnchor={data.length >= 5 ? "end" : "middle"}
+            angle={shouldRotate ? -45 : 0}
+            textAnchor={shouldRotate ? "end" : "middle"}
             interval={0}
-            height={data.length >= 5 ? 100 : 30}
+            height={shouldRotate ? 100 : 30}
           />
           <YAxis domain={[0.9, 1]} tick={{ fontSize: 12, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
-          <Tooltip 
-             cursor={{ stroke: 'black', strokeWidth: 1, strokeDasharray: '5 5', opacity: 0.5 }}
-             contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
-          />
           <Legend wrapperStyle={{ paddingTop: '10px' }}/>
           <Line 
             type="monotone" 

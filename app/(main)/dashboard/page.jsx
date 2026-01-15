@@ -16,13 +16,13 @@ const Card = ({ title, value, change }) => (
 const Dashboard = () => {
   return (
     <div className="space-y-8">
-      <header className="flex justify-between items-end pb-6 border-b border-gray-100">
+      <header className="flex flex-col md:flex-row justify-between md:items-end pb-6 border-b border-gray-100 gap-4">
         <div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">System Overview</h1>
+          <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-2">System Overview</h1>
           <p className="text-gray-500">Real-time monitoring and security insights.</p>
         </div>
-        <div className="flex gap-3">
-          <button className="px-5 py-2 bg-black text-white rounded-lg font-medium shadow-lg hover:bg-gray-800 transition-colors">
+        <div className="flex gap-3 w-full md:w-auto">
+          <button className="px-5 py-2 bg-black text-white rounded-lg font-medium shadow-lg hover:bg-gray-800 transition-colors w-full md:w-auto">
             Export Report
           </button>
         </div>

@@ -54,13 +54,14 @@
     flex-direction: column;
     gap: 1.5rem;
     /* gap-6 */
-    align-items: flex-end;
+    align-items: stretch;
     justify-content: space-between;
 }
 
 @media (min-width: 768px) {
     .control-panel {
         flex-direction: row;
+        align-items: flex-end;
     }
 }
 
@@ -143,6 +144,8 @@
 .button-group {
     display: flex;
     gap: 1rem;
+    flex-wrap: wrap;
+    /* responsive wrap */
 }
 
 /* Professional Secondary Button */
@@ -184,8 +187,8 @@
 /* Input Grid */
 .input-section {
     background-color: white;
-    padding: 2rem;
-    /* p-8 */
+    padding: 1rem;
+    /* p-4 mobile */
     border-radius: 0.75rem;
     /* rounded-xl */
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -212,14 +215,19 @@
 
 .input-grid {
     display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    gap: 1.5rem;
-    /* gap-6 */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    /* gap-3 mobile */
 }
 
 @media (min-width: 640px) {
+    .input-section {
+        padding: 2rem;
+    }
+
     .input-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.5rem;
+        /* Restore gap */
     }
 }
 
@@ -328,8 +336,8 @@
     margin-top: 2rem;
     /* mt-8 */
     background-color: white;
-    padding: 2rem;
-    /* p-8 */
+    padding: 1rem;
+    /* p-4 mobile */
     border-radius: 0.75rem;
     /* rounded-xl */
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -376,8 +384,14 @@
 }
 
 .table-cell-head {
-    padding: 0.75rem 1.5rem;
-    /* px-6 py-3 */
+    padding: 0.75rem 0.5rem;
+    /* px-2 py-3 mobile */
+}
+
+@media (min-width: 640px) {
+    .table-cell-head {
+        padding: 0.75rem 1.5rem;
+    }
 }
 
 .table-cell-head:first-child {
@@ -404,8 +418,14 @@
 }
 
 .table-cell {
-    padding: 1rem 1.5rem;
-    /* px-6 py-4 */
+    padding: 0.75rem 0.5rem;
+    /* px-2 py-3 mobile */
+}
+
+@media (min-width: 640px) {
+    .table-cell {
+        padding: 1rem 1.5rem;
+    }
 }
 
 .model-name {
@@ -495,9 +515,18 @@
     background: #ffffff;
     border: 1px solid #e5e7eb;
     border-radius: 1rem;
-    padding: 2rem;
+    border-radius: 1rem;
+    padding: 1rem;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     animation: fadeInSlideUp 0.5s ease-out;
+}
+
+@media (min-width: 640px) {
+
+    .result-section,
+    .single-result-card {
+        padding: 2rem;
+    }
 }
 
 .result-header-row {

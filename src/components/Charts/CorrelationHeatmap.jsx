@@ -27,15 +27,15 @@ export default function CorrelationHeatmap() {
       <div 
         className="grid"
         style={{
-          gridTemplateColumns: `auto repeat(${features.length}, minmax(20px, 1fr))`,
+          gridTemplateColumns: `auto repeat(${features.length}, minmax(16px, 1fr))`,
           minWidth: "max-content"
         }}
       >
         {/* Header Row */}
-        <div className="h-20"></div> {/* Top-left empty spacer */}
+        <div className="h-16 sm:h-20"></div> {/* Top-left empty spacer */}
         {features.map((feature, i) => (
-          <div key={`col-${i}`} className="relative h-24 w-8">
-            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 -rotate-90 origin-bottom-left text-[10px] text-gray-500 whitespace-nowrap">
+          <div key={`col-${i}`} className="relative h-20 w-5 sm:h-24 sm:w-8">
+            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 -rotate-90 origin-bottom-left text-[9px] sm:text-[10px] text-gray-500 whitespace-nowrap">
               {feature}
             </span>
           </div>
@@ -45,8 +45,8 @@ export default function CorrelationHeatmap() {
         {matrix.map((row, i) => (
           <Fragment key={`row-${i}`}>
             {/* Row Label */}
-            <div key={`row-label-${i}`} className="flex items-center justify-end pr-2 h-8">
-              <span className="text-[10px] text-gray-500 truncate max-w-[100px]" title={features[i]}>
+            <div key={`row-label-${i}`} className="flex items-center justify-end pr-2 h-5 sm:h-8">
+              <span className="text-[9px] sm:text-[10px] text-gray-500 truncate max-w-[100px]" title={features[i]}>
                 {features[i]}
               </span>
             </div>
@@ -55,7 +55,7 @@ export default function CorrelationHeatmap() {
             {row.map((cell, j) => (
               <div
                 key={`cell-${i}-${j}`}
-                className="h-8 w-8 border-[0.5px] border-gray-50 relative group"
+                className="h-5 w-5 sm:h-8 sm:w-8 border-[0.5px] border-gray-50 relative group"
                 style={{ backgroundColor: getColor(cell) }}
                 title={`${features[i]} vs ${features[j]}: ${cell?.toFixed(4)}`}
               >

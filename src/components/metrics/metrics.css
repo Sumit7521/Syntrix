@@ -1,9 +1,13 @@
-/* Main Container */
 .metrics-container {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-    /* space-y-8 */
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .metrics-container {
+        gap: 2rem;
+    }
 }
 
 /* Header */
@@ -15,8 +19,8 @@
 }
 
 .metrics-title {
-    font-size: 2.25rem;
-    /* text-4xl */
+    font-size: 1.5rem;
+    /* mobile: text-2xl */
     font-weight: 700;
     /* font-bold */
     color: #111827;
@@ -24,7 +28,13 @@
     margin-bottom: 0.5rem;
     /* mb-2 */
     font-family: 'Space Grotesk', sans-serif;
-    /* font-space */
+}
+
+@media (min-width: 768px) {
+    .metrics-title {
+        font-size: 2.25rem;
+        /* desktop: text-4xl */
+    }
 }
 
 .metrics-subtitle {

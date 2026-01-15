@@ -32,3 +32,13 @@ h6 {
   padding: 1rem;
   overflow-x: hidden;
 }
+
+/* Fix for Recharts focus outline */
+/* Global Focus Outline Removal */
+*:focus,
+*:focus-visible,
+.recharts-wrapper,
+.recharts-surface,
+.recharts-layer {
+  outline: none !important;
+}

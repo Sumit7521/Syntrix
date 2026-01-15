@@ -38,7 +38,7 @@ export default function FeatureImportanceChart() {
   return (
     <div className="w-full">
         {/* Header & Controls */}
-        <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+        <div className="flex flex-col sm:flex-row justify-start items-start sm:items-center mb-6 gap-4">
             <h3 className="text-lg font-semibold text-gray-800">
                 Top 20 Feature Importance
             </h3>
@@ -60,12 +60,12 @@ export default function FeatureImportanceChart() {
         </div>
 
         {/* Chart */}
-        <div className="h-[600px] w-full">
+        <div className="h-[500px] sm:h-[600px] w-full">
             <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                     layout="vertical"
                     data={chartData}
-                    margin={{ top: 5, right: 30, left: 100, bottom: 5 }} // Increased left margin for y-axis labels
+                    margin={{ top: 5, bottom: 5 }} // Increased left margin for y-axis labels
                 >
                     {/* <CartesianGrid strokeDasharray="3 3" horizontal={false} /> */}
                     <XAxis type="number" hide />
@@ -76,11 +76,6 @@ export default function FeatureImportanceChart() {
                         tick={{ fontSize: 12, fill: "#6b7280", fontWeight: 500 }}
                         tickLine={false}
                         axisLine={false}
-                    />
-                    <Tooltip 
-                        cursor={{ fill: '#f3f4f6' }}
-                        contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
-                        formatter={(value) => [value.toFixed(4), "Importance"]}
                     />
                     <Bar dataKey="importance" barSize={20} radius={[0, 4, 4, 0]}>
                         {chartData.map((entry, index) => (
