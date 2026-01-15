@@ -108,42 +108,6 @@ const Heatmap = () => {
             <p className="footer-text">* Evaluated on NSL-KDD Test Set (22,544 records)</p>
         </div>
       </section>
-
-      {/* 7. Quick Prediction Insight (Static Demo) */}
-      <section className="prediction-banner">
-        <div className="banner-content">
-            <div>
-                <h3 className="banner-title">
-                    <FiTrendingUp/> Live Prediction Insight
-                </h3>
-                <p className="banner-text">
-                    Real-time analysis of incoming traffic packet.
-                </p>
-                <div className="badge-group">
-                    <span className="glass-badge">Method: Ensemble (RF + XGB)</span>
-                    <span className="glass-badge">Inference Time: 12ms</span>
-                </div>
-            </div>
-            
-            <div className="prediction-card">
-                <div className="pred-card-header">
-                    <span className="pred-label">Prediction</span>
-                    <span className="status-badge">MALICIOUS</span>
-                </div>
-                <h4 className="attack-type-title">DoS Attack</h4>
-                <p className="confidence-text">Confidence Score: <strong className="confidence-val">99.2%</strong></p>
-                
-                <div className="factors-section">
-                    <p className="factors-title">Top Contributing Factors:</p>
-                    <div className="factor-badges">
-                        <span className="factor-badge">src_bytes</span>
-                        <span className="factor-badge">service</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-      </section>
-
     </div>
   )
 }

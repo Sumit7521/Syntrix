@@ -73,18 +73,18 @@ export default function FeatureImportanceChart() {
                         dataKey="feature" 
                         type="category" 
                         width={120}
-                        tick={{ fontSize: 12, fill: "#4b5563" }}
+                        tick={{ fontSize: 12, fill: "#6b7280", fontWeight: 500 }}
                         tickLine={false}
                         axisLine={false}
                     />
                     <Tooltip 
-                        cursor={{ fill: '#f9fafb' }}
+                        cursor={{ fill: '#f3f4f6' }}
                         contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
                         formatter={(value) => [value.toFixed(4), "Importance"]}
                     />
-                    <Bar dataKey="importance" barSize={18} radius={[0, 4, 4, 0]}>
+                    <Bar dataKey="importance" barSize={20} radius={[0, 4, 4, 0]}>
                         {chartData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill="#88cdfa" /> // Light blue color matching reference
+                            <Cell key={`cell-${index}`} fill={index < 3 ? '#111827' : '#9ca3af'} /> // Top 3 Black, others Gray
                         ))}
                     </Bar>
                 </BarChart>

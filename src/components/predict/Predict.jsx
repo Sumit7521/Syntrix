@@ -61,6 +61,14 @@ export default function Predict() {
     setForm(randomData);
   };
 
+  const fillAllZeros = () => {
+    const zerosData = {};
+    predictSchema.forEach(field => {
+      zerosData[field.key] = 0;
+    });
+    setForm(zerosData);
+  };
+
   const fillAllOnes = () => {
      const onesData = {};
     predictSchema.forEach(field => {
@@ -141,16 +149,22 @@ export default function Predict() {
          <div className="button-group">
              <button 
                 onClick={fillRandomValues}
-                className="btn-secondary btn-teal"
+                className="btn-secondary"
              >
-                🎲 Randomize Data
+                🎲 Randomize
              </button>
              <button 
                 onClick={fillAllOnes}
-                className="btn-secondary btn-gray"
+                className="btn-secondary"
             >
-                Start with 1.0
-             </button>
+                Set All 1
+            </button>
+             <button 
+                onClick={fillAllZeros}
+                className="btn-secondary"
+            >
+                Set All 0
+            </button>
          </div>
       </div>
 
@@ -242,14 +256,40 @@ export default function Predict() {
       )}
 
       {result && !Array.isArray(result) && (
-        <div className="json-result-container">
-          <div className="json-header">
-              <h3 className="json-title">Analysis Complete</h3>
-              <span className="json-badge">JSON Output</span>
+        <div className="single-result-card">
+          <div className="result-header-row">
+             <h3 className="result-card-title">Analysis Result</h3>
+             <span className="model-badge">Current Model</span>
           </div>
-          <pre className="json-pre">
-            {JSON.stringify(result, null, 2)}
-          </pre>
+          
+          <div className="result-content-grid">
+             <div className="result-status-box">
+                <span className="label-text">Prediction Status</span>
+                <div className={`status-indicator ${result.prediction === 'Normal' ? 'status-safe' : 'status-danger'}`}>
+                   {result.prediction === 'Normal' ? (
+                      <span className="icon-safe">🛡️</span> 
+                   ) : (
+                      <span className="icon-danger">⚠️</span>
+                   )}
+                   <span className="status-text">{result.prediction || "Unknown"}</span>
+                </div>
+             </div>
+
+             <div className="result-metric-box">
+                <span className="label-text">Confidence Score</span>
+                <div className="metric-value-row">
+                   <span className="metric-number">
+                      {(result.confidence > 1 ? result.confidence : result.confidence * 100).toFixed(1)}%
+                   </span>
+                </div>
+                <div className="single-progress-track">
+                   <div 
+                      className="single-progress-bar"
+                      style={{ width: `${result.confidence > 1 ? result.confidence : result.confidence * 100}%` }}
+                   ></div>
+                </div>
+             </div>
+          </div>
         </div>
       )}
 

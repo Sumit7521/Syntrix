@@ -42,8 +42,8 @@ export default function FeatureDistributionChart() {
             cursor={{ fill: '#f9fafb' }}
           />
           <Legend />
-          <Bar dataKey="Normal" fill="#10b981" radius={[4, 4, 0, 0]} barSize={30} />
-          <Bar dataKey="Attack" fill="#ef4444" radius={[4, 4, 0, 0]} barSize={30} />
+          <Bar dataKey="Normal" fill="black" radius={[4, 4, 0, 0]} barSize={30} />
+          <Bar dataKey="Attack" fill="#9ca3af" radius={[4, 4, 0, 0]} barSize={30} />
         </BarChart>
       </ResponsiveContainer>
     </div>

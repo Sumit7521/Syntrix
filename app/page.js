@@ -56,7 +56,7 @@ const LandingPage = () => {
           <Link href="/dashboard" className="btn-primary">
             Launch Dashboard
           </Link>
-          <Link href="https://github.com" className="btn-secondary">
+          <Link href="https://github.com/Sumit7521/Syntrix/blob/main/README.md" className="btn-secondary">
             View Documentation
           </Link>
         </motion.div>
@@ -75,7 +75,7 @@ const LandingPage = () => {
           <span className="stat-label">Packets Analyzed</span>
         </div>
         <div className="stat-item">
-          <span className="stat-value">99.9%</span>
+          <span className="stat-value">97.9%</span>
           <span className="stat-label">Detection Accuracy</span>
         </div>
         <div className="stat-item">

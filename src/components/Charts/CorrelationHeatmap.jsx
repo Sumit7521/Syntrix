@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, Fragment } from "react";
 import correlationData from "@/Data/correlation_matrix.json";
 
 export default function CorrelationHeatmap() {
@@ -43,7 +43,7 @@ export default function CorrelationHeatmap() {
 
         {/* Data Rows */}
         {matrix.map((row, i) => (
-          <>
+          <Fragment key={`row-${i}`}>
             {/* Row Label */}
             <div key={`row-label-${i}`} className="flex items-center justify-end pr-2 h-8">
               <span className="text-[10px] text-gray-500 truncate max-w-[100px]" title={features[i]}>
@@ -62,7 +62,7 @@ export default function CorrelationHeatmap() {
                   {/* Tooltip via simple title prop or custom group-hover if needed */}
               </div>
             ))}
-          </>
+          </Fragment>
         ))}
       </div>
       

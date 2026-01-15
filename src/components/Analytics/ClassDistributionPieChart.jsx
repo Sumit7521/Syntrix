@@ -8,7 +8,7 @@ const data = [
   { name: 'Attack', value: 58630 },
 ];
 
-const COLORS = ['#10b981', '#ef4444']; // Emerald-500 for Normal, Red-500 for Attack
+const COLORS = ['#000000', '#9ca3af']; // Black for Normal, Gray for Attack
 
 export default function ClassDistributionPieChart() {
   return (

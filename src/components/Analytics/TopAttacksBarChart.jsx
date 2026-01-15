@@ -38,7 +38,7 @@ export default function TopAttacksBarChart() {
           />
           <Bar dataKey="count" radius={[0, 4, 4, 0]} barSize={24}>
              {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={index === 0 ? '#ef4444' : '#f87171'} /> // Top attack is darker red
+                <Cell key={`cell-${index}`} fill={index === 0 ? 'black' : '#9ca3af'} /> // Top attack is black, others gray
              ))}
           </Bar>
         </BarChart>

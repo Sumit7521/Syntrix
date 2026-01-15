@@ -85,7 +85,7 @@
 }
 
 .model-btn.selected {
-    background-color: #4f46e5;
+    background-color: black;
     /* bg-indigo-600 */
     color: white;
     box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.1), 0 2px 4px -1px rgba(79, 70, 229, 0.06);
