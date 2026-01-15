@@ -77,6 +77,7 @@ export default function FeatureImportanceChart() {
                         tickLine={false}
                         axisLine={false}
                     />
+                    <Tooltip cursor={{ fill: 'transparent' }} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
                     <Bar dataKey="importance" barSize={20} radius={[0, 4, 4, 0]}>
                         {chartData.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={index < 3 ? '#111827' : '#9ca3af'} /> // Top 3 Black, others Gray

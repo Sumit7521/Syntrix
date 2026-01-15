@@ -3,10 +3,34 @@
 import React from 'react';
 
 const metrics = [
-  { model: 'Random Forest', accuracy: '99.8%', precision: '99.7%', recall: '99.8%', f1: '99.7%' },
-  { model: 'XGBoost', accuracy: '99.5%', precision: '99.4%', recall: '99.6%', f1: '99.5%' },
-  { model: 'Decision Tree', accuracy: '98.2%', precision: '98.0%', recall: '98.4%', f1: '98.2%' },
-  { model: 'AdaBoost', accuracy: '96.5%', precision: '96.1%', recall: '97.0%', f1: '96.5%' },
+  {
+    model: 'Random Forest',
+    accuracy: '99.9%',
+    precision: '99.9%',
+    recall: '99.9%',
+    f1: '99.9%',
+  },
+  {
+    model: 'XGBoost',
+    accuracy: '99.9%',
+    precision: '99.9%',
+    recall: '99.9%',
+    f1: '99.9%',
+  },
+  {
+    model: 'Decision Tree',
+    accuracy: '96.6%',
+    precision: '96.7%',
+    recall: '96.6%',
+    f1: '96.6%',
+  },
+  {
+    model: 'AdaBoost',
+    accuracy: '97.7%',
+    precision: '97.7%',
+    recall: '97.7%',
+    f1: '97.7%',
+  },
 ];
 
 export default function ModelPerformanceTable() {
