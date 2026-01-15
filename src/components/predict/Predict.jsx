@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { predictSchema } from "@/Data/predictSchema";
+import { predictSchema, NORMAL_DEFAULT_VALUES } from "@/Data/predictSchema";
 import { predictAttack } from "@/utils/api";
 import "./predict.css";
 
@@ -77,6 +77,14 @@ export default function Predict() {
     setForm(onesData);
   };
 
+  const fillNormalValues = () => {
+    const normalData = {};
+    predictSchema.forEach(field => {
+      normalData[field.key] = NORMAL_DEFAULT_VALUES[field.key] ?? 0;
+    });
+    setForm(normalData);
+  };
+
   const handleSubmit = async () => {
     setLoading(true);
     setError(null);
@@ -148,6 +156,12 @@ export default function Predict() {
 
          <div className="button-group">
              <button 
+                onClick={fillNormalValues}
+                className="btn-secondary"
+             >
+                🛡️ Normal
+             </button>
+             <button 
                 onClick={fillRandomValues}
                 className="btn-secondary"
              >
@@ -217,7 +231,12 @@ export default function Predict() {
                     </thead>
                     <tbody>
                         {result.map((row, idx) => {
-                            const pred = row.data?.prediction || row.data?.Prediction || "Unknown";
+                            const rawPred = row.data?.prediction ?? row.data?.Prediction;
+                            // Map 0 -> Normal, 1 -> Attack
+                            const pred = (rawPred === 0 || rawPred === "0") ? "Normal"
+                                       : (rawPred === 1 || rawPred === "1") ? "Attack" 
+                                       : rawPred || "Unknown";
+
                             const conf = row.data?.confidence ?? row.data?.Confidence ?? 0;
                             const confVal = conf > 1 ? conf / 100 : conf; // Normalize to 0-1 if receiving 0-100
 
@@ -262,34 +281,47 @@ export default function Predict() {
              <span className="model-badge">Current Model</span>
           </div>
           
-          <div className="result-content-grid">
-             <div className="result-status-box">
-                <span className="label-text">Prediction Status</span>
-                <div className={`status-indicator ${result.prediction === 'Normal' ? 'status-safe' : 'status-danger'}`}>
-                   {result.prediction === 'Normal' ? (
-                      <span className="icon-safe">🛡️</span> 
-                   ) : (
-                      <span className="icon-danger">⚠️</span>
-                   )}
-                   <span className="status-text">{result.prediction || "Unknown"}</span>
-                </div>
-             </div>
+          {(() => {
+             const rawPred = result.prediction ?? result.Prediction;
+             // Map 0 -> Normal, 1 -> Attack. Handle both numbers and strings.
+             const pred = (rawPred === 0 || rawPred === "0") ? "Normal"
+                        : (rawPred === 1 || rawPred === "1") ? "Attack" 
+                        : rawPred || "Unknown";
 
-             <div className="result-metric-box">
-                <span className="label-text">Confidence Score</span>
-                <div className="metric-value-row">
-                   <span className="metric-number">
-                      {(result.confidence > 1 ? result.confidence : result.confidence * 100).toFixed(1)}%
-                   </span>
-                </div>
-                <div className="single-progress-track">
-                   <div 
-                      className="single-progress-bar"
-                      style={{ width: `${result.confidence > 1 ? result.confidence : result.confidence * 100}%` }}
-                   ></div>
-                </div>
-             </div>
-          </div>
+             const conf = result.confidence ?? result.Confidence ?? 0;
+             const confVal = conf > 1 ? conf / 100 : conf;
+
+             return (
+               <div className="result-content-grid">
+                  <div className="result-status-box">
+                     <span className="label-text">Prediction Status</span>
+                     <div className={`status-indicator ${pred === 'Normal' ? 'status-safe' : 'status-danger'}`}>
+                        {pred === 'Normal' ? (
+                           <span className="icon-safe">🛡️</span> 
+                        ) : (
+                           <span className="icon-danger">⚠️</span>
+                        )}
+                        <span className="status-text">{pred}</span>
+                     </div>
+                  </div>
+
+                  <div className="result-metric-box">
+                     <span className="label-text">Confidence Score</span>
+                     <div className="metric-value-row">
+                        <span className="metric-number">
+                           {(confVal * 100).toFixed(1)}%
+                        </span>
+                     </div>
+                     <div className="single-progress-track">
+                        <div 
+                           className="single-progress-bar"
+                           style={{ width: `${confVal * 100}%` }}
+                        ></div>
+                     </div>
+                  </div>
+               </div>
+             );
+          })()}
         </div>
       )}
 
