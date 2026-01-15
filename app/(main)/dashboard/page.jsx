@@ -29,7 +29,7 @@ const Dashboard = () => {
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card title="Total Models" value="12" change="+2 Active" />
+        <Card title="Total Models" value="9" change="+2 Active" />
         <Card title="Attacks Prevented" value="843" change="+12% vs last week" />
         <Card title="Avg. Response" value="45ms" change="-5ms Improvement" />
         <Card title="System Health" value="98.2%" change="Optimal" />
