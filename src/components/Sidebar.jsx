@@ -6,6 +6,7 @@ const links = [
   { name: "Dashboard", href: "/dashboard" },
   { name: "Model Metrics", href: "/metrics" },
   { name: "Predict Attack", href: "/predict" },
+  { name: "Multiclass Predict", href: "/predict-multiclass" },
   { name: "Correlation Heatmap", href: "/heatmap" },
   { name: "Features", href: "/feature" }
 ];
