@@ -13,8 +13,12 @@ export const NORMAL_DEFAULT_VALUES = {
   urgent: 0,
   hot: 0,
   num_failed_logins: 0,
+  num_compromised: 0,
   su_attempted: 0,
+  num_root: 0,
   num_file_creations: 0,
+  num_shells: 0,
+  num_access_files: 0,
   num_outbound_cmds: 0,
   is_host_login: 0,
   count: 6,
@@ -59,9 +63,13 @@ export const predictSchema = [
   { key: "hot", type: "number", min: 0, max: 101 },
 
   { key: "num_failed_logins", type: "number", min: 0, max: 5 },
+  { key: "num_compromised", type: "number", min: 0 },
   { key: "su_attempted", type: "binary" },
 
+  { key: "num_root", type: "number", min: 0 },
   { key: "num_file_creations", type: "number", min: 0, max: 100 },
+  { key: "num_shells", type: "number", min: 0 },
+  { key: "num_access_files", type: "number", min: 0 },
   { key: "num_outbound_cmds", type: "number", min: 0, max: 0 }, // always 0
   { key: "is_host_login", type: "binary" },
 
