@@ -96,8 +96,10 @@ export default function ModelArena() {
         
         const prediction = res.prediction ?? res.Prediction ?? "Error";
         const confidence = res.confidence ?? res.Confidence ?? 0;
-        const isCorrect = prediction.toLowerCase() === selectedProfile.expected.toLowerCase() || 
-                         (selectedProfile.expected === "Normal" && prediction === "Normal");
+        const cleanPred = String(prediction).trim().toLowerCase();
+        const expectedPred = String(selectedProfile.expected).trim().toLowerCase();
+        const isCorrect = cleanPred === expectedPred || cleanPred.includes(expectedPred) || 
+                         (selectedProfile.expected === "Normal" && (cleanPred === "normal" || cleanPred.includes("normal")));
                          
         const finalResult = {
            status: "finished",

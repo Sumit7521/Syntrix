@@ -12,6 +12,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    transform: translateY(-100%); /* Fix flicker on load */
+    pointer-events: none;
     /* Allow pointer events only when open (handled by GSAP) */
 }
 

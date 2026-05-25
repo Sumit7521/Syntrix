@@ -1,195 +1,189 @@
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
 
 .hacker-container {
-    background-color: #050b14;
-    color: #00ffcc;
-    font-family: 'Share Tech Mono', monospace;
+    background: radial-gradient(circle at top right, #0d1117, #020408);
+    color: #c9d1d9;
+    font-family: 'Inter', sans-serif;
     min-height: calc(100vh - 80px);
-    padding: 2rem;
+    padding: 2.5rem;
     position: relative;
     overflow: hidden;
 }
 
-/* CRT Scanline Effect */
-.scan-line {
+/* Subtle Grid Background for Cyberpunk feel */
+.hacker-container::before {
+    content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
-    background-size: 100% 4px;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: 
+        linear-gradient(rgba(0, 255, 204, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 204, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
     pointer-events: none;
-    z-index: 50;
-    opacity: 0.3;
+    z-index: 1;
 }
 
 .hacker-header {
-    text-align: center;
-    margin-bottom: 3rem;
+    text-align: left;
+    margin-bottom: 2.5rem;
     position: relative;
     z-index: 2;
+    border-left: 4px solid #00ffcc;
+    padding-left: 1.5rem;
 }
 
-.glitch {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 3rem;
+.hacker-header h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2.5rem;
     font-weight: 700;
-    text-transform: uppercase;
-    position: relative;
     color: #fff;
-    text-shadow: 0 0 10px rgba(0, 255, 204, 0.8), 0 0 20px rgba(0, 255, 204, 0.4);
-    letter-spacing: 0.1em;
-    margin-bottom: 0.5rem;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
+    letter-spacing: -0.5px;
 }
 
-.glitch::before, .glitch::after {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.glitch::before {
-    left: 2px;
-    text-shadow: -2px 0 #ff003c;
-    clip: rect(24px, 550px, 90px, 0);
-    animation: glitch-anim 3s infinite linear alternate-reverse;
-}
-
-.glitch::after {
-    left: -2px;
-    text-shadow: -2px 0 #00ffcc;
-    clip: rect(85px, 550px, 140px, 0);
-    animation: glitch-anim 2.5s infinite linear alternate-reverse;
-}
-
-@keyframes glitch-anim {
-    0% { clip: rect(21px, 9999px, 83px, 0); }
-    20% { clip: rect(61px, 9999px, 20px, 0); }
-    40% { clip: rect(75px, 9999px, 13px, 0); }
-    60% { clip: rect(4px, 9999px, 87px, 0); }
-    80% { clip: rect(32px, 9999px, 16px, 0); }
-    100% { clip: rect(93px, 9999px, 4px, 0); }
-}
-
-.typewriter {
-    overflow: hidden;
-    white-space: nowrap;
-    margin: 0 auto;
-    letter-spacing: 0.1em;
-    animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
-    border-right: .15em solid #00ffcc;
-    color: #64ffda;
-    max-width: fit-content;
-}
-
-@keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
-}
-
-@keyframes blink-caret {
-    from, to { border-color: transparent }
-    50% { border-color: #00ffcc; }
+.hacker-header p {
+    color: #8b949e;
+    font-size: 1.1rem;
+    margin: 0;
 }
 
 .hacker-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1300px;
     position: relative;
     z-index: 2;
 }
 
 .panel {
-    background: rgba(10, 25, 47, 0.85);
-    border: 1px solid #00ffcc;
-    border-radius: 4px;
+    background: rgba(13, 17, 23, 0.85);
+    border: 1px solid #30363d;
+    border-radius: 12px;
     padding: 2rem;
-    box-shadow: 0 0 15px rgba(0, 255, 204, 0.1), inset 0 0 20px rgba(0, 255, 204, 0.05);
-    backdrop-filter: blur(4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Cyberpunk Accent Corner */
+.panel::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 30px; height: 30px;
+    border-top: 2px solid #00ffcc;
+    border-right: 2px solid #00ffcc;
+    border-top-right-radius: 12px;
+    opacity: 0.5;
 }
 
 .panel-header {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
+    font-family: 'JetBrains Mono', monospace;
     font-weight: 700;
     color: #fff;
-    border-bottom: 1px solid rgba(0, 255, 204, 0.3);
-    padding-bottom: 1rem;
     margin-bottom: 2rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 1px;
 }
 
-/* Custom Sliders */
+.panel-header svg {
+    color: #00ffcc;
+}
+
+/* Improved Sliders */
 .slider-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.75rem;
+    background: rgba(22, 27, 34, 0.5);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #21262d;
+    transition: all 0.3s ease;
+}
+
+.slider-group:hover {
+    border-color: #00ffcc;
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.1);
 }
 
 .slider-labels {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 0.5rem;
-    color: #a8b2d1;
+    margin-bottom: 1rem;
     font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.slider-labels label {
+    color: #c9d1d9;
 }
 
 .slider-val {
     color: #00ffcc;
+    font-family: 'JetBrains Mono', monospace;
     font-weight: 700;
+    background: rgba(0, 255, 204, 0.1);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
 }
 
 .hacker-slider {
     -webkit-appearance: none;
     width: 100%;
-    height: 4px;
-    background: rgba(0, 255, 204, 0.2);
+    height: 6px;
+    background: #30363d;
+    border-radius: 3px;
     outline: none;
-    margin: 10px 0;
 }
 
 .hacker-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     background: #00ffcc;
+    border: 2px solid #0d1117;
     cursor: pointer;
-    box-shadow: 0 0 10px #00ffcc;
     border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+    transition: transform 0.1s;
+}
+
+.hacker-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
 }
 
 .hint {
     display: block;
-    color: #495670;
-    font-size: 0.75rem;
-    margin-top: 0.25rem;
+    color: #8b949e;
+    font-size: 0.8rem;
+    margin-top: 0.75rem;
 }
 
 .btn-reset {
     width: 100%;
-    background: transparent;
+    background: rgba(0, 255, 204, 0.1);
     color: #00ffcc;
-    border: 1px solid #00ffcc;
-    padding: 0.75rem;
-    font-family: inherit;
-    text-transform: uppercase;
+    border: 1px solid rgba(0, 255, 204, 0.3);
+    padding: 1rem;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
     cursor: pointer;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     transition: all 0.2s;
 }
 
 .btn-reset:hover {
-    background: rgba(0, 255, 204, 0.1);
-    box-shadow: 0 0 10px rgba(0, 255, 204, 0.4);
+    background: #00ffcc;
+    color: #0d1117;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
 }
 
 /* Monitor Display */
@@ -197,142 +191,158 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    gap: 2.5rem;
     margin-bottom: 3rem;
 }
 
 .status-ring {
-    width: 150px;
-    height: 150px;
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    background: rgba(22, 27, 34, 0.5);
 }
 
 .ring-safe {
-    border: 2px dashed #00ffcc;
-    box-shadow: 0 0 30px rgba(0, 255, 204, 0.2);
-    animation: rotate 10s linear infinite;
+    border: 3px solid rgba(0, 255, 204, 0.2);
+    box-shadow: inset 0 0 30px rgba(0, 255, 204, 0.05), 0 0 40px rgba(0, 255, 204, 0.1);
+}
+
+.ring-safe::after {
+    content: '';
+    position: absolute;
+    top: -3px; left: -3px; right: -3px; bottom: -3px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #00ffcc;
+    animation: rotate 3s linear infinite;
 }
 
 .ring-danger {
-    border: 2px dashed #ff003c;
-    box-shadow: 0 0 40px rgba(255, 0, 60, 0.4);
-    animation: rotate 4s linear infinite;
+    border: 3px solid rgba(255, 51, 102, 0.2);
+    box-shadow: inset 0 0 30px rgba(255, 51, 102, 0.1), 0 0 50px rgba(255, 51, 102, 0.2);
+}
+
+.ring-danger::after {
+    content: '';
+    position: absolute;
+    top: -3px; left: -3px; right: -3px; bottom: -3px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #ff3366;
+    animation: rotate 1s linear infinite;
 }
 
 .status-core {
-    animation: counter-rotate 10s linear infinite;
+    z-index: 2;
 }
 
-.ring-danger .status-core {
-    animation: counter-rotate 4s linear infinite;
-    color: #ff003c;
-}
-
-.ring-safe .status-core {
-    color: #00ffcc;
-}
+.ring-danger .status-core { color: #ff3366; }
+.ring-safe .status-core { color: #00ffcc; }
 
 @keyframes rotate {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
 
-@keyframes counter-rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(-360deg); }
-}
-
 .scanning-pulse {
-    width: 60px;
-    height: 60px;
-    background: rgba(0, 255, 204, 0.5);
+    width: 80px;
+    height: 80px;
+    background: rgba(0, 255, 204, 0.2);
     border-radius: 50%;
     animation: pulse 1s infinite alternate;
 }
 
 @keyframes pulse {
     0% { transform: scale(0.8); opacity: 0.5; }
-    100% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1.1); opacity: 1; }
 }
 
 .threat-info {
     text-align: center;
     width: 100%;
+    background: rgba(22, 27, 34, 0.5);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #21262d;
 }
 
 .threat-name {
-    font-size: 2rem;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-    font-family: 'Orbitron', sans-serif;
-    letter-spacing: 0.1em;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: -0.5px;
 }
 
-.text-neon-green {
-    color: #00ffcc;
-    text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
-}
-
-.text-neon-red {
-    color: #ff003c;
-    text-shadow: 0 0 15px rgba(255, 0, 60, 0.8);
-}
+.text-neon-green { color: #00ffcc; }
+.text-neon-red { color: #ff3366; }
 
 .confidence-meter {
     display: flex;
     align-items: center;
     gap: 1rem;
-    color: #a8b2d1;
-    font-size: 0.875rem;
+    color: #8b949e;
+    font-size: 0.9rem;
+    font-family: 'JetBrains Mono', monospace;
 }
 
 .meter-bg {
     flex: 1;
     height: 8px;
-    background: rgba(255,255,255,0.1);
+    background: #0d1117;
     border-radius: 4px;
     overflow: hidden;
+    border: 1px solid #30363d;
 }
 
 .meter-fill {
     height: 100%;
-    transition: width 0.3s ease, background 0.3s ease;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s;
 }
 
 .conf-text {
-    width: 60px;
+    width: 65px;
     text-align: right;
     color: #fff;
+    font-weight: 700;
 }
 
 .terminal-log {
-    background: #02060c;
-    border: 1px solid #1e293b;
-    padding: 1rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    color: #8892b0;
-    min-height: 150px;
+    background: #0d1117;
+    border: 1px solid #30363d;
+    padding: 1.5rem;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: #8b949e;
+    min-height: 160px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
 }
 
 .log-line {
     margin-bottom: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.log-prefix {
+    color: #30363d;
 }
 
 .blink {
-    animation: blinker 1s linear infinite;
-    color: #eab308;
+    animation: blinker 1.5s step-start infinite;
+    color: #d2a8ff;
 }
 
 @keyframes blinker {
-    50% { opacity: 0; }
+    50% { opacity: 0.5; }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
     .hacker-grid {
         grid-template-columns: 1fr;
     }

@@ -77,22 +77,21 @@ export default function HackerMode() {
     return () => clearTimeout(debounceRef.current);
   }, [payload]);
 
-  const isAttack = prediction !== "Normal" && prediction !== "API Error";
+  const cleanPrediction = String(prediction).trim().toLowerCase();
+  const isAttack = cleanPrediction !== "normal" && !cleanPrediction.includes("normal") && prediction !== "API Error";
 
   return (
     <div className="hacker-container">
-      <div className="scan-line"></div>
-      
       <header className="hacker-header">
-        <h1 className="glitch" data-text="HACKER MODE">HACKER MODE</h1>
-        <p className="typewriter">Interactive What-If Analysis. Modify network parameters and watch the AI react in real-time.</p>
+        <h1>WHAT-IF ANALYSIS</h1>
+        <p>Interactive Command Center. Modify network parameters and watch the AI react in real-time.</p>
       </header>
 
       <div className="hacker-grid">
         {/* Sliders Panel */}
         <div className="panel control-panel">
           <div className="panel-header">
-            <FiTerminal /> <span>Parameter Modulation</span>
+            <FiTerminal /> Parameter Modulation
           </div>
           
           <div className="slider-group">
@@ -159,17 +158,15 @@ export default function HackerMode() {
             <small className="hint">Triggers Probe / U2R attacks</small>
           </div>
           
-          <div className="slider-group">
-             <button className="btn-reset" onClick={() => setPayload({ ...NORMAL_DEFAULT_VALUES })}>
-               Initialize Base Payload (Normal)
-             </button>
-          </div>
+          <button className="btn-reset" onClick={() => setPayload({ ...NORMAL_DEFAULT_VALUES })}>
+            Initialize Base Payload
+          </button>
         </div>
 
         {/* Real-time Result Panel */}
         <div className="panel monitor-panel">
            <div className="panel-header">
-              <FiActivity /> <span>Hybrid AI Monitor</span>
+              <FiActivity /> Hybrid AI Monitor
            </div>
            
            <div className="monitor-display">
@@ -178,38 +175,38 @@ export default function HackerMode() {
                     {isScanning ? (
                        <div className="scanning-pulse"></div>
                     ) : (
-                       isAttack ? <FiCrosshair size={64} /> : <FiShield size={64} />
+                       isAttack ? <FiCrosshair size={70} /> : <FiShield size={70} />
                     )}
                  </div>
               </div>
               
               <div className="threat-info">
-                 <h2 className={`threat-name ${isAttack ? 'text-neon-red' : 'text-neon-green'}`}>
-                    {isScanning ? "ANALYZING..." : prediction}
-                 </h2>
+                 <div className={`threat-name ${isAttack ? 'text-neon-red' : 'text-neon-green'}`}>
+                    {isScanning ? "ANALYZING..." : (isAttack ? prediction.toUpperCase() : "NORMAL TRAFFIC")}
+                 </div>
                  <div className="confidence-meter">
-                    <span>Confidence</span>
+                    <span>CONF</span>
                     <div className="meter-bg">
                        <div 
                           className="meter-fill" 
                           style={{ 
                              width: `${confidence}%`, 
-                             background: isAttack ? '#ff003c' : '#00ffcc'
-                           }}
+                             backgroundColor: isAttack ? '#ff3366' : '#00ffcc'
+                          }}
                        ></div>
                     </div>
-                    <span className="conf-text">{confidence.toFixed(2)}%</span>
+                    <span className="conf-text">{confidence.toFixed(1)}%</span>
                  </div>
               </div>
            </div>
 
            <div className="terminal-log">
-              <div className="log-line">&gt; LIVE_STREAM: CONNECTED</div>
-              <div className="log-line">&gt; PAYLOAD_SIZE: 41_FEATURES</div>
-              <div className="log-line">&gt; MODEL: AUTO_ENCODER_XGBOOST</div>
-              {isScanning && <div className="log-line blink">&gt; RECALCULATING_TRAJECTORY...</div>}
-              {!isScanning && isAttack && <div className="log-line text-neon-red">&gt; THREAT_DETECTED_AT_CURRENT_VECTORS!</div>}
-              {!isScanning && !isAttack && <div className="log-line text-neon-green">&gt; PACKET_SAFE. SECURE.</div>}
+              <div className="log-line"><span className="log-prefix">~</span> LIVE_STREAM: CONNECTED</div>
+              <div className="log-line"><span className="log-prefix">~</span> PAYLOAD_SIZE: 41_FEATURES</div>
+              <div className="log-line"><span className="log-prefix">~</span> MODEL: HYBRID (AutoEncoder+XGB)</div>
+              {isScanning && <div className="log-line blink"><span className="log-prefix">~</span> RECALCULATING_TRAJECTORY...</div>}
+              {!isScanning && isAttack && <div className="log-line text-neon-red"><span className="log-prefix text-neon-red">!</span> THREAT_DETECTED_AT_CURRENT_VECTORS!</div>}
+              {!isScanning && !isAttack && <div className="log-line text-neon-green"><span className="log-prefix text-neon-green">&gt;</span> PACKET_SAFE. SECURE.</div>}
            </div>
         </div>
       </div>

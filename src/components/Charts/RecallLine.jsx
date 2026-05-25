@@ -25,8 +25,8 @@ export function RecallLine({ data }) {
 
   const chartData = data.map(m => ({
     name: m.name,
-    normal: m.normal.recall,
-    attack: m.attack.recall
+    normal: m.normal?.recall ?? m.overall.recall,
+    attack: m.attack?.recall ?? m.overall.recall
   }));
 
   const shouldRotate = (isMobile && data.length >= 3) || data.length >= 5;
@@ -47,7 +47,7 @@ export function RecallLine({ data }) {
             interval={0}
             height={shouldRotate ? 100 : 30}
           />
-          <YAxis domain={[0.9, 1]} tick={{ fontSize: 12, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
+          <YAxis domain={['auto', 'auto']} tick={{ fontSize: 12, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
           <Tooltip cursor={false} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
           <Legend wrapperStyle={{ paddingTop: '10px' }}/>
           <Line 

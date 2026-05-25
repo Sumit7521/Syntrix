@@ -112,12 +112,14 @@ export default function BatchPredict() {
             const res = await predictMulticlassAttack(payload, "hybrid");
             const predText = res.prediction ?? res.Prediction ?? "Unknown";
             const conf = res.confidence ?? res.Confidence ?? 0;
-            const isSafe = predText === "Normal";
+            const cleanPred = String(predText).trim().toLowerCase();
+            const isSafe = cleanPred === "normal" || cleanPred.includes("normal");
+            const finalPredictionText = isSafe ? "Normal" : predText;
 
             processedResults.push({
                id: i + 1,
                ...payload,
-               prediction: predText,
+               prediction: finalPredictionText,
                confidence: typeof conf === "number" ? conf > 1 ? conf : conf * 100 : 0,
                isSafe
             });
@@ -307,8 +309,8 @@ export default function BatchPredict() {
             </div>
 
             <div className="threat-log-section">
-               <h3>Threat Log (Malicious Packets)</h3>
-               {results.stats.attacks > 0 ? (
+               <h3>Scan Log (All Packets)</h3>
+               {results.rawData.length > 0 ? (
                   <div className="table-responsive">
                      <table className="threat-table">
                         <thead>
@@ -317,18 +319,18 @@ export default function BatchPredict() {
                               <th>Protocol</th>
                               <th>Service</th>
                               <th>Bytes (Src/Dst)</th>
-                              <th>Detected Threat</th>
+                              <th>Detected Result</th>
                               <th>Confidence</th>
                            </tr>
                         </thead>
                         <tbody>
-                           {results.rawData.filter(r => !r.isSafe).map((row, idx) => (
-                              <tr key={idx}>
+                           {results.rawData.map((row, idx) => (
+                              <tr key={idx} style={{ backgroundColor: row.isSafe ? "rgba(16, 185, 129, 0.05)" : "transparent" }}>
                                  <td>#{row.id}</td>
                                  <td className="uppercase">{row.protocol_type}</td>
                                  <td>{row.service}</td>
                                  <td>{row.src_bytes} / {row.dst_bytes}</td>
-                                 <td className="threat-cell">{row.prediction}</td>
+                                 <td className={row.isSafe ? "text-green" : "threat-cell"}>{row.prediction}</td>
                                  <td>{row.confidence.toFixed(1)}%</td>
                               </tr>
                            ))}
@@ -336,7 +338,7 @@ export default function BatchPredict() {
                      </table>
                   </div>
                ) : (
-                  <p className="clean-msg">All traffic is clean. Log is empty.</p>
+                  <p className="clean-msg">Log is empty.</p>
                )}
             </div>
             

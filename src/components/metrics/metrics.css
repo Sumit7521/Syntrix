@@ -160,3 +160,35 @@
     color: #1f2937;
     /* text-gray-800 */
 }
+
+/* Classification Toggle */
+.classification-toggle {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+.toggle-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    color: #6b7280;
+    transition: all 0.2s;
+    font-family: var(--font-inter);
+}
+.toggle-btn.active {
+    background: black;
+    color: white;
+    border-color: black;
+}
+.placeholder-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 1rem;
+    border: 2px dashed #d1d5db;
+    color: #6b7280;
+    font-family: var(--font-inter);
+}
