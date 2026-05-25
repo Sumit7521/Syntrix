@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600;700&display=swap');
+
+.visual-container {
+    background-color: #030712;
+    color: #e5e7eb;
+    font-family: 'Inter', sans-serif;
+    min-height: calc(100vh - 80px);
+    padding: 2rem;
+}
+
+.visual-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.visual-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #f9fafb;
+    margin-bottom: 0.5rem;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.visual-header p {
+    color: #9ca3af;
+}
+
+.visual-layout {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    height: 65vh;
+}
+
+.controls-panel {
+    background: #111827;
+    border: 1px solid #374151;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    overflow-y: auto;
+}
+
+.panel-header {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #f9fafb;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid #374151;
+    padding-bottom: 1rem;
+}
+
+.slider-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.slider-val {
+    color: #00ffcc;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.visual-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background: #374151;
+    border-radius: 3px;
+    outline: none;
+}
+
+.visual-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #00ffcc;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.hint {
+    font-size: 0.75rem;
+    color: #9ca3af;
+}
+
+.presets-section h4 {
+    margin-bottom: 1rem;
+    color: #d1d5db;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.preset-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.btn-preset {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: #1f2937;
+    border: 1px solid #374151;
+    color: #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+    text-align: left;
+}
+
+.btn-preset:hover {
+    background: #374151;
+}
+
+.btn-preset.safe:hover { border-color: #00ffcc; color: #00ffcc; }
+.btn-preset.danger:hover { border-color: #ff003c; color: #ff003c; }
+.btn-preset.stealth:hover { border-color: #8b5cf6; color: #8b5cf6; }
+
+.playback-controls {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.btn-play, .btn-clear {
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-play {
+    background: #00ffcc;
+    color: #030712;
+}
+
+.btn-clear {
+    background: #374151;
+    color: #f9fafb;
+}
+
+.btn-clear:hover { background: #4b5563; }
+
+.canvas-wrapper {
+    position: relative;
+    background: #0a0e17;
+    border: 1px solid #1f2937;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+}
+
+.impact-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.canvas-overlay {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    z-index: 10;
+}
+
+.status-blinker {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.25rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: 700;
+    animation: blink 2s infinite;
+}
+
+.status-blinker.green {
+    background: rgba(0, 255, 204, 0.1);
+    color: #00ffcc;
+    border: 1px solid #00ffcc;
+}
+
+.status-blinker.red {
+    background: rgba(255, 0, 60, 0.1);
+    color: #ff003c;
+    border: 1px solid #ff003c;
+    animation: rapidBlink 0.5s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@keyframes rapidBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+}
+
+@media (max-width: 900px) {
+    .visual-layout {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+    .canvas-wrapper {
+        height: 500px;
+    }
+}

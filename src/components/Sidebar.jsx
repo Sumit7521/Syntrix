@@ -7,6 +7,10 @@ const links = [
   { name: "Model Metrics", href: "/metrics" },
   { name: "Predict Attack", href: "/predict" },
   { name: "Multiclass Predict", href: "/predict-multiclass" },
+  { name: "Batch Analysis", href: "/batch" },
+  { name: "Model Arena", href: "/arena" },
+  { name: "Hacker Mode", href: "/hacker-mode" },
+  { name: "Visual Impact", href: "/visual" },
   { name: "Correlation Heatmap", href: "/heatmap" },
   { name: "Features", href: "/feature" }
 ];
