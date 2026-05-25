@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { predictSchema, NORMAL_DEFAULT_VALUES } from "@/Data/predictSchema";
+import { predictSchema, NORMAL_DEFAULT_VALUES, NEPTUNE_DDOS_VALUES, SMURF_DDOS_VALUES, PORT_SCAN_VALUES, BRUTE_FORCE_VALUES, ROOTKIT_VALUES } from "@/Data/predictSchema";
 import { predictMulticlassAttack } from "@/utils/api";
 import "./predict.css";
 import "./predict-multiclass.css";
@@ -33,6 +33,8 @@ export default function PredictMulticlass() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [explanation, setExplanation] = useState(null);
+  const [isExplaining, setIsExplaining] = useState(false);
 
   const handleChange = (key, value, type) => {
     if (type === "binary" && !["0", "1"].includes(value)) return;
@@ -62,22 +64,6 @@ export default function PredictMulticlass() {
     setForm(randomData);
   };
 
-  const fillAllZeros = () => {
-    const zerosData = {};
-    predictSchema.forEach(field => {
-      zerosData[field.key] = 0;
-    });
-    setForm(zerosData);
-  };
-
-  const fillAllOnes = () => {
-     const onesData = {};
-    predictSchema.forEach(field => {
-      onesData[field.key] = field.type === "rate" ? 1.0 : 1;
-    });
-    setForm(onesData);
-  };
-
   const fillNormalValues = () => {
     const normalData = {};
     predictSchema.forEach(field => {
@@ -86,15 +72,58 @@ export default function PredictMulticlass() {
     setForm(normalData);
   };
 
+  const handleProfileSelect = (e) => {
+    const profile = e.target.value;
+    if (profile === "normal") setForm({...NORMAL_DEFAULT_VALUES});
+    else if (profile === "neptune") setForm({...NEPTUNE_DDOS_VALUES});
+    else if (profile === "smurf") setForm({...SMURF_DDOS_VALUES});
+    else if (profile === "portscan") setForm({...PORT_SCAN_VALUES});
+    else if (profile === "bruteforce") setForm({...BRUTE_FORCE_VALUES});
+    else if (profile === "rootkit") setForm({...ROOTKIT_VALUES});
+    
+    // reset selection so user can pick same profile again if they modify it
+    e.target.value = "";
+  };
+
   const handleSubmit = async () => {
     setLoading(true);
     setError(null);
     setResult(null);
+    setExplanation(null);
 
     const payload = {};
     predictSchema.forEach(f => {
       payload[f.key] = form[f.key];
     });
+
+    // --- NEW: Map numerical inputs to strings for the backend ---
+    // The backend's Pydantic schema expects strings for these categorical fields
+    // and the model uses one-hot encoding (e.g., "tcp", "http", "SF").
+    const protocolMap = ["tcp", "udp", "icmp"];
+    
+    // Most common flags mapping (1 is usually SF for normal connections)
+    const flagMap = ["S0", "SF", "REJ", "RSTO", "RSTR", "S1", "S2", "S3", "SH", "OTH"];
+    
+    // Most common services (34 is mapped to http based on the default normal values)
+    // We'll create a default fallback to 'http' or other common services
+    const mapService = (val) => {
+      if (val === 34) return "http";
+      if (val === 12) return "ftp";
+      if (val === 54) return "smtp";
+      if (val === 14) return "dns";
+      return "http"; // Fallback to http so it doesn't break
+    };
+
+    if (payload.protocol_type !== undefined) {
+      payload.protocol_type = protocolMap[payload.protocol_type] || "tcp";
+    }
+    if (payload.flag !== undefined) {
+      payload.flag = flagMap[payload.flag] || "SF";
+    }
+    if (payload.service !== undefined) {
+      payload.service = mapService(payload.service);
+    }
+    // -------------------------------------------------------------
 
     try {
       if (model === "all") {
@@ -114,6 +143,9 @@ export default function PredictMulticlass() {
       } else {
         const data = await predictMulticlassAttack(payload, model);
         setResult(data);
+        if (data && data.explanation) {
+          generateExplanation(data);
+        }
       }
     } catch (err) {
       if (err.response) {
@@ -145,6 +177,42 @@ export default function PredictMulticlass() {
     }
     
     return { text: rawPred || "Unknown", class: "Unknown", badge: "badge-gray" };
+  };
+
+  const generateExplanation = async (resultData) => {
+    if (!resultData || !resultData.explanation) return;
+    
+    setIsExplaining(true);
+    setExplanation(null);
+
+    const rawPred = resultData.prediction ?? resultData.Prediction;
+    const details = getLabelDetails(rawPred);
+    const conf = resultData.confidence ?? resultData.Confidence ?? 0;
+    const confVal = conf > 1 ? conf / 100 : conf;
+
+    try {
+      const response = await fetch("/api/explain", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prediction: details.text,
+          confidence: (confVal * 100).toFixed(1),
+          topFeatures: resultData.explanation.top_features,
+          isSafe: details.class === "Normal"
+        })
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to generate explanation");
+      }
+
+      setExplanation(data.explanation);
+    } catch (err) {
+      setExplanation("⚠️ AI Explanation Error: " + err.message);
+    } finally {
+      setIsExplaining(false);
+    }
   };
 
   return (
@@ -187,18 +255,25 @@ export default function PredictMulticlass() {
              >
                 🎲 Randomize
              </button>
-             <button 
-                onClick={fillAllOnes}
-                className="btn-secondary"
-            >
-                Set All 1
-            </button>
-             <button 
-                onClick={fillAllZeros}
-                className="btn-secondary"
-            >
-                Set All 0
-            </button>
+             <div className="select-wrapper profile-select-wrapper">
+                 <select 
+                     onChange={handleProfileSelect}
+                     className="styled-select"
+                     defaultValue=""
+                     style={{ minWidth: "220px" }}
+                 >
+                    <option value="" disabled>📥 Load Threat Profile...</option>
+                    <option value="normal">🛡️ Normal Traffic</option>
+                    <option value="neptune">🔴 DDoS (Neptune / SYN Flood)</option>
+                    <option value="smurf">🔴 DDoS (Smurf / ICMP Flood)</option>
+                    <option value="portscan">🟣 Port Scan (Nmap / Satan)</option>
+                    <option value="bruteforce">🟠 Brute Force (FTP / Telnet)</option>
+                    <option value="rootkit">🟡 Rootkit (Buffer Overflow)</option>
+                 </select>
+                 <div className="select-icon">
+                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                 </div>
+             </div>
          </div>
       </div>
 
@@ -396,6 +471,39 @@ export default function PredictMulticlass() {
                   <span>Decreases Cyber Threat Probability</span>
                 </div>
               </div>
+
+              {/* LangChain AI Explanation Block */}
+              <div className="ai-explanation-section">
+                 <div className="ai-header">
+                    <h3 className="ai-title">
+                       ✨ AI Human Explanation
+                    </h3>
+                    <button 
+                       className="ai-button"
+                       onClick={() => generateExplanation(result)}
+                       disabled={isExplaining}
+                    >
+                       {isExplaining ? "Generating..." : "Generate Explanation"}
+                    </button>
+                 </div>
+                 
+                 {explanation && (
+                    <div className="ai-content">
+                       {(() => {
+                           if (!explanation) return null;
+                           // Split by ** to parse bold text
+                           const parts = explanation.split(/(\*\*.*?\*\*)/g);
+                           return parts.map((part, i) => {
+                               if (part.startsWith('**') && part.endsWith('**')) {
+                                   return <strong key={i} style={{ color: '#111827', fontWeight: '700' }}>{part.slice(2, -2)}</strong>;
+                               }
+                               return <span key={i}>{part}</span>;
+                           });
+                       })()}
+                    </div>
+                 )}
+              </div>
+
             </div>
           )}
         </>
