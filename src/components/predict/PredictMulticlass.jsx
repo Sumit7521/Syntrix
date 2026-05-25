@@ -35,6 +35,7 @@ export default function PredictMulticlass() {
   const [error, setError] = useState(null);
   const [explanation, setExplanation] = useState(null);
   const [isExplaining, setIsExplaining] = useState(false);
+  const [selectedProfile, setSelectedProfile] = useState("");
 
   const handleChange = (key, value, type) => {
     if (type === "binary" && !["0", "1"].includes(value)) return;
@@ -47,6 +48,7 @@ export default function PredictMulticlass() {
   };
 
   const fillRandomValues = () => {
+    setSelectedProfile("");
     const randomData = {};
     predictSchema.forEach(field => {
       if (field.type === "binary") {
@@ -65,6 +67,7 @@ export default function PredictMulticlass() {
   };
 
   const fillNormalValues = () => {
+    setSelectedProfile("");
     const normalData = {};
     predictSchema.forEach(field => {
       normalData[field.key] = NORMAL_DEFAULT_VALUES[field.key] ?? 0;
@@ -74,15 +77,12 @@ export default function PredictMulticlass() {
 
   const handleProfileSelect = (e) => {
     const profile = e.target.value;
-    if (profile === "normal") setForm({...NORMAL_DEFAULT_VALUES});
-    else if (profile === "neptune") setForm({...NEPTUNE_DDOS_VALUES});
-    else if (profile === "smurf") setForm({...SMURF_DDOS_VALUES});
-    else if (profile === "portscan") setForm({...PORT_SCAN_VALUES});
-    else if (profile === "bruteforce") setForm({...BRUTE_FORCE_VALUES});
-    else if (profile === "rootkit") setForm({...ROOTKIT_VALUES});
-    
-    // reset selection so user can pick same profile again if they modify it
-    e.target.value = "";
+    setSelectedProfile(profile);
+
+    if (profile === "dos") setForm({...NEPTUNE_DDOS_VALUES});
+    else if (profile === "probe") setForm({...PORT_SCAN_VALUES});
+    else if (profile === "r2l") setForm({...BRUTE_FORCE_VALUES});
+    else if (profile === "u2r") setForm({...ROOTKIT_VALUES});
   };
 
   const handleSubmit = async () => {
@@ -257,18 +257,16 @@ export default function PredictMulticlass() {
              </button>
              <div className="select-wrapper profile-select-wrapper">
                  <select 
+                     value={selectedProfile}
                      onChange={handleProfileSelect}
                      className="styled-select"
-                     defaultValue=""
                      style={{ minWidth: "220px" }}
                  >
                     <option value="" disabled>📥 Load Threat Profile...</option>
-                    <option value="normal">🛡️ Normal Traffic</option>
-                    <option value="neptune">🔴 DDoS (Neptune / SYN Flood)</option>
-                    <option value="smurf">🔴 DDoS (Smurf / ICMP Flood)</option>
-                    <option value="portscan">🟣 Port Scan (Nmap / Satan)</option>
-                    <option value="bruteforce">🟠 Brute Force (FTP / Telnet)</option>
-                    <option value="rootkit">🟡 Rootkit (Buffer Overflow)</option>
+                    <option value="dos">🔴 DoS Attack</option>
+                    <option value="probe">🟣 Probe Attack</option>
+                    <option value="r2l">🟠 R2L (Remote to Local)</option>
+                    <option value="u2r">🟡 U2R (User to Root)</option>
                  </select>
                  <div className="select-icon">
                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
