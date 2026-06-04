@@ -8,7 +8,7 @@ import InsightCard from "@/components/Analytics/InsightCard";
 import ClassDistributionPieChart from "@/components/Analytics/ClassDistributionPieChart";
 import TopAttacksBarChart from "@/components/Analytics/TopAttacksBarChart";
 import FeatureDistributionChart from "@/components/Analytics/FeatureDistributionChart";
-import ModelPerformanceTable from "@/components/Analytics/ModelPerformanceTable";
+
 
 // Icons
 import { FiDatabase, FiShield, FiAlertTriangle, FiActivity, FiCpu, FiTrendingUp } from "react-icons/fi";
@@ -98,16 +98,7 @@ const Heatmap = () => {
          </div>
       </section>
 
-      {/* 6. Model Performance Summary */}
-      <section className="card">
-        <h3 className="section-title">
-            <FiActivity className="section-icon-green"/> Model Performance Summary
-        </h3>
-        <ModelPerformanceTable />
-        <div className="performance-footer">
-            <p className="footer-text">* Evaluated on NSL-KDD Test Set (22,544 records)</p>
-        </div>
-      </section>
+
     </div>
   )
 }
