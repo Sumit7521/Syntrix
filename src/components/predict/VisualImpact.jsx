@@ -2,12 +2,46 @@
 
 import { useState, useEffect, useRef } from "react";
 import { FiMonitor, FiSliders, FiPlayCircle, FiShield, FiCrosshair, FiActivity } from "react-icons/fi";
+import { NORMAL_DEFAULT_VALUES } from "@/Data/predictSchema";
 import "./visual-impact.css";
+
+
+const VISUAL_FEATURES = [
+  { key: "num_failed_logins", min: 0, max: 10, step: 1, hint: "Triggers Brute Force / R2L" },
+  { key: "count", min: 0, max: 511, step: 5, hint: "High volume triggers SYN Flood / DoS" },
+  { key: "wrong_fragment", min: 0, max: 3, step: 1, hint: "Triggers Teardrop DoS attacks" },
+  { key: "hot", min: 0, max: 30, step: 1, hint: "Triggers Probe / U2R attacks" },
+  { key: "duration", min: 0, max: 1000, step: 10, hint: "Long connection duration" },
+  { key: "src_bytes", min: 0, max: 50000, step: 100, hint: "Bytes sent by source" },
+  { key: "dst_bytes", min: 0, max: 50000, step: 100, hint: "Bytes sent by destination" },
+  { key: "logged_in", min: 0, max: 1, step: 1, hint: "Successful login status" },
+  { key: "num_compromised", min: 0, max: 20, step: 1, hint: "Number of compromised conditions" },
+  { key: "root_shell", min: 0, max: 1, step: 1, hint: "Root shell obtained" },
+  { key: "su_attempted", min: 0, max: 1, step: 1, hint: "SU command attempted" },
+  { key: "num_file_creations", min: 0, max: 20, step: 1, hint: "Files created during session" },
+  { key: "srv_count", min: 0, max: 511, step: 5, hint: "Connections to same service" },
+  { key: "serror_rate", min: 0, max: 1, step: 0.01, hint: "SYN error percentage" },
+  { key: "rerror_rate", min: 0, max: 1, step: 0.01, hint: "REJ error percentage" },
+  { key: "same_srv_rate", min: 0, max: 1, step: 0.01, hint: "Connections to same service" },
+  { key: "diff_srv_rate", min: 0, max: 1, step: 0.01, hint: "Connections to different services" },
+  { key: "dst_host_count", min: 0, max: 255, step: 5, hint: "Destination host connections" },
+  { key: "dst_host_srv_count", min: 0, max: 255, step: 5, hint: "Destination host service count" },
+  { key: "dst_host_same_srv_rate", min: 0, max: 1, step: 0.01, hint: "Same service rate for host" }
+];
 
 export default function VisualImpact() {
   const canvasRef = useRef(null);
-  const [count, setCount] = useState(5);
-  const [serrorRate, setSerrorRate] = useState(0.0);
+  const [payload, setPayload] = useState({ ...NORMAL_DEFAULT_VALUES, count: 5, serror_rate: 0.0 });
+  const count = payload.count;
+  const serrorRate = payload.serror_rate;
+  
+  const handleSliderChange = (e) => {
+    const { name, value } = e.target;
+    setPayload(prev => ({
+      ...prev,
+      [name]: Number(value)
+    }));
+  };
   const [isPlaying, setIsPlaying] = useState(true);
   
   const particlesRef = useRef([]);
@@ -150,7 +184,8 @@ export default function VisualImpact() {
      else if (edge === 2) { x = Math.random() * w; y = h + 10; }
      else { x = -10; y = Math.random() * h; }
 
-     const isThreat = count > 200;
+     const threatScore = count + (payload.serror_rate * 200) + (payload.num_failed_logins * 50) + (payload.hot * 10) + (payload.wrong_fragment * 100) + (payload.root_shell * 300);
+     const isThreat = threatScore > 200;
      
      particlesRef.current.push({
         x, y,
@@ -161,10 +196,10 @@ export default function VisualImpact() {
   };
 
   const applyPreset = (presetName) => {
-     if (presetName === "normal") { setCount(5); setSerrorRate(0.0); }
-     if (presetName === "smurf") { setCount(511); setSerrorRate(0.0); }
-     if (presetName === "neptune") { setCount(250); setSerrorRate(1.0); }
-     if (presetName === "rootkit") { setCount(1); setSerrorRate(0.0); }
+     if (presetName === "normal") { setPayload(prev => ({ ...prev, count: 5, serror_rate: 0.0, hot: 0 })); }
+     if (presetName === "smurf") { setPayload(prev => ({ ...prev, count: 511, serror_rate: 0.0, src_bytes: 1032 })); }
+     if (presetName === "neptune") { setPayload(prev => ({ ...prev, count: 250, serror_rate: 1.0, wrong_fragment: 3 })); }
+     if (presetName === "rootkit") { setPayload(prev => ({ ...prev, count: 1, serror_rate: 0.0, root_shell: 1, hot: 2 })); }
   };
 
   return (
@@ -180,33 +215,23 @@ export default function VisualImpact() {
                <FiSliders /> Controls
             </div>
             
-            <div className="slider-group">
-               <div className="slider-labels">
-                  <label>Count (Connections)</label>
-                  <span className="slider-val">{count}</span>
+            {VISUAL_FEATURES.map(feat => (
+               <div className="slider-group" key={feat.key}>
+                 <div className="slider-labels">
+                   <label>{feat.key.replace(/_/g, " ")}</label>
+                   <span className="slider-val">{feat.key === 'serror_rate' || feat.key === 'rerror_rate' || feat.key.includes('rate') ? (payload[feat.key] * 100).toFixed(0) + '%' : payload[feat.key]}</span>
+                 </div>
+                 <input 
+                   type="range" 
+                   name={feat.key}
+                   min={feat.min} max={feat.max} step={feat.step} 
+                   value={payload[feat.key]} 
+                   onChange={handleSliderChange} 
+                   className="visual-slider" 
+                 />
+                 <small className="hint">{feat.hint}</small>
                </div>
-               <input 
-                  type="range" min="0" max="511" 
-                  value={count} 
-                  onChange={e => setCount(Number(e.target.value))} 
-                  className="visual-slider" 
-               />
-               <small className="hint">Number of connections to the same host in 2 seconds.</small>
-            </div>
-
-            <div className="slider-group">
-               <div className="slider-labels">
-                  <label>Serror_Rate (SYN Errors)</label>
-                  <span className="slider-val">{(serrorRate * 100).toFixed(0)}%</span>
-               </div>
-               <input 
-                  type="range" min="0" max="1" step="0.01" 
-                  value={serrorRate} 
-                  onChange={e => setSerrorRate(Number(e.target.value))} 
-                  className="visual-slider" 
-               />
-               <small className="hint">Percentage of connections that have SYN errors.</small>
-            </div>
+            ))}
 
             <div className="presets-section">
                <h4>Quick Presets</h4>

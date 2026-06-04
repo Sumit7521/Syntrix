@@ -225,3 +225,20 @@
         height: 500px;
     }
 }
+
+
+.controls-panel {
+    max-height: 800px;
+    overflow-y: auto;
+}
+
+.controls-panel::-webkit-scrollbar {
+    width: 8px;
+}
+.controls-panel::-webkit-scrollbar-thumb {
+    background-color: #30363d;
+    border-radius: 4px;
+}
+.controls-panel::-webkit-scrollbar-track {
+    background: transparent;
+}
