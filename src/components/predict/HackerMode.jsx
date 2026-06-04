@@ -6,6 +6,30 @@ import { NORMAL_DEFAULT_VALUES } from "@/Data/predictSchema";
 import { FiTerminal, FiShield, FiAlertTriangle, FiActivity, FiCrosshair } from "react-icons/fi";
 import "./hacker-mode.css";
 
+
+const HACKER_FEATURES = [
+  { key: "num_failed_logins", min: 0, max: 10, step: 1, hint: "Triggers Brute Force / R2L" },
+  { key: "count", min: 0, max: 511, step: 5, hint: "High volume triggers SYN Flood / DoS" },
+  { key: "wrong_fragment", min: 0, max: 3, step: 1, hint: "Triggers Teardrop DoS attacks" },
+  { key: "hot", min: 0, max: 30, step: 1, hint: "Triggers Probe / U2R attacks" },
+  { key: "duration", min: 0, max: 1000, step: 10, hint: "Long connection duration" },
+  { key: "src_bytes", min: 0, max: 50000, step: 100, hint: "Bytes sent by source" },
+  { key: "dst_bytes", min: 0, max: 50000, step: 100, hint: "Bytes sent by destination" },
+  { key: "logged_in", min: 0, max: 1, step: 1, hint: "Successful login status" },
+  { key: "num_compromised", min: 0, max: 20, step: 1, hint: "Number of compromised conditions" },
+  { key: "root_shell", min: 0, max: 1, step: 1, hint: "Root shell obtained" },
+  { key: "su_attempted", min: 0, max: 1, step: 1, hint: "SU command attempted" },
+  { key: "num_file_creations", min: 0, max: 20, step: 1, hint: "Files created during session" },
+  { key: "srv_count", min: 0, max: 511, step: 5, hint: "Connections to same service" },
+  { key: "serror_rate", min: 0, max: 1, step: 0.01, hint: "SYN error percentage" },
+  { key: "rerror_rate", min: 0, max: 1, step: 0.01, hint: "REJ error percentage" },
+  { key: "same_srv_rate", min: 0, max: 1, step: 0.01, hint: "Connections to same service" },
+  { key: "diff_srv_rate", min: 0, max: 1, step: 0.01, hint: "Connections to different services" },
+  { key: "dst_host_count", min: 0, max: 255, step: 5, hint: "Destination host connections" },
+  { key: "dst_host_srv_count", min: 0, max: 255, step: 5, hint: "Destination host service count" },
+  { key: "dst_host_same_srv_rate", min: 0, max: 1, step: 0.01, hint: "Same service rate for host" }
+];
+
 export default function HackerMode() {
   const [payload, setPayload] = useState({ ...NORMAL_DEFAULT_VALUES });
   const [prediction, setPrediction] = useState("Normal");
@@ -94,69 +118,23 @@ export default function HackerMode() {
             <FiTerminal /> Parameter Modulation
           </div>
           
-          <div className="slider-group">
-            <div className="slider-labels">
-              <label>num_failed_logins</label>
-              <span className="slider-val">{payload.num_failed_logins}</span>
+          {HACKER_FEATURES.map(feat => (
+            <div className="slider-group" key={feat.key}>
+              <div className="slider-labels">
+                <label>{feat.key.replace(/_/g, " ")}</label>
+                <span className="slider-val">{payload[feat.key]}</span>
+              </div>
+              <input 
+                type="range" 
+                name={feat.key} 
+                min={feat.min} max={feat.max} step={feat.step} 
+                value={payload[feat.key]} 
+                onChange={handleSliderChange} 
+                className="hacker-slider"
+              />
+              <small className="hint">{feat.hint}</small>
             </div>
-            <input 
-              type="range" 
-              name="num_failed_logins" 
-              min="0" max="10" step="1" 
-              value={payload.num_failed_logins} 
-              onChange={handleSliderChange} 
-              className="hacker-slider"
-            />
-            <small className="hint">Triggers Brute Force / R2L</small>
-          </div>
-
-          <div className="slider-group">
-            <div className="slider-labels">
-              <label>count (connections)</label>
-              <span className="slider-val">{payload.count}</span>
-            </div>
-            <input 
-              type="range" 
-              name="count" 
-              min="0" max="511" step="5" 
-              value={payload.count} 
-              onChange={handleSliderChange} 
-              className="hacker-slider"
-            />
-            <small className="hint">High volume triggers SYN Flood / DoS</small>
-          </div>
-
-          <div className="slider-group">
-            <div className="slider-labels">
-              <label>wrong_fragment</label>
-              <span className="slider-val">{payload.wrong_fragment}</span>
-            </div>
-            <input 
-              type="range" 
-              name="wrong_fragment" 
-              min="0" max="3" step="1" 
-              value={payload.wrong_fragment} 
-              onChange={handleSliderChange} 
-              className="hacker-slider"
-            />
-            <small className="hint">Triggers Teardrop DoS attacks</small>
-          </div>
-
-          <div className="slider-group">
-            <div className="slider-labels">
-              <label>hot (indicators)</label>
-              <span className="slider-val">{payload.hot}</span>
-            </div>
-            <input 
-              type="range" 
-              name="hot" 
-              min="0" max="30" step="1" 
-              value={payload.hot} 
-              onChange={handleSliderChange} 
-              className="hacker-slider"
-            />
-            <small className="hint">Triggers Probe / U2R attacks</small>
-          </div>
+          ))}
           
           <button className="btn-reset" onClick={() => setPayload({ ...NORMAL_DEFAULT_VALUES })}>
             Initialize Base Payload

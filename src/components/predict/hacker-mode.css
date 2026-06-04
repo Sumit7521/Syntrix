@@ -347,3 +347,20 @@
         grid-template-columns: 1fr;
     }
 }
+
+
+.control-panel {
+    max-height: 750px;
+    overflow-y: auto;
+}
+
+.control-panel::-webkit-scrollbar {
+    width: 8px;
+}
+.control-panel::-webkit-scrollbar-thumb {
+    background-color: #30363d;
+    border-radius: 4px;
+}
+.control-panel::-webkit-scrollbar-track {
+    background: transparent;
+}
