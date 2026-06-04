@@ -94,15 +94,15 @@ export default function Metrics() {
         </div>
         <div className="chart-card">
             <h3 className="chart-title">Precision Trends</h3>
-            <PrecisionLine data={filteredData} />
+            <PrecisionLine data={filteredData} isMulticlass={classificationType === 'multiclass'} />
         </div>
         <div className="chart-card">
              <h3 className="chart-title">Recall Analysis</h3>
-            <RecallLine data={filteredData} />
+             <RecallLine data={filteredData} isMulticlass={classificationType === 'multiclass'} />
         </div>
         <div className="chart-card">
-            <h3 className="chart-title">F1 Score Distribution</h3>
-            <F1Line data={filteredData} />
+             <h3 className="chart-title">F1-Score Analysis</h3>
+             <F1Line data={filteredData} isMulticlass={classificationType === 'multiclass'} />
         </div>
       </div>
     </div>

@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import { useState, useEffect } from "react";
 
-export function PrecisionLine({ data }) {
+export function PrecisionLine({ data, isMulticlass = false }) {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -23,11 +23,23 @@ export function PrecisionLine({ data }) {
 
   if (!data) return null;
 
-  const chartData = data.map(m => ({
-    name: m.name,
-    normal: m.normal?.precision ?? m.overall.precision,
-    attack: m.attack?.precision ?? m.overall.precision
-  }));
+  const chartData = data.map(m => {
+    if (isMulticlass) {
+      return {
+        name: m.name,
+        normal: m.normal?.precision ?? m.overall.precision,
+        dos: m.DoS?.precision ?? m.overall.precision,
+        probe: m.Probe?.precision ?? m.overall.precision,
+        r2l: m.R2L?.precision ?? m.overall.precision,
+        u2r: m.U2R?.precision ?? m.overall.precision,
+      };
+    }
+    return {
+      name: m.name,
+      normal: m.normal?.precision ?? m.overall.precision,
+      attack: m.attack?.precision ?? m.overall.precision
+    };
+  });
 
   const shouldRotate = (isMobile && data.length >= 3) || data.length >= 5;
 
@@ -50,24 +62,18 @@ export function PrecisionLine({ data }) {
           <YAxis domain={['auto', 'auto']} tick={{ fontSize: 12, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
           <Tooltip cursor={false} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
           <Legend wrapperStyle={{ paddingTop: '10px' }}/>
-          <Line 
-            type="monotone" 
-            dataKey="normal"
-            name="Normal" 
-            stroke="black" 
-            strokeWidth={3} 
-            dot={{ r: 4, strokeWidth: 2 }}
-            activeDot={{ r: 6 }} 
-          />
-          <Line 
-            type="monotone" 
-            dataKey="attack"
-            name="Attack" 
-            stroke="#9ca3af" 
-            strokeWidth={3} 
-            dot={{ r: 4, strokeWidth: 2 }}
-            activeDot={{ r: 6 }}
-          />
+          <Line type="monotone" dataKey="normal" name="Normal" stroke="black" strokeWidth={3} dot={{ r: 4, strokeWidth: 2 }} activeDot={{ r: 6 }} />
+          {!isMulticlass && (
+            <Line type="monotone" dataKey="attack" name="Attack" stroke="#9ca3af" strokeWidth={3} dot={{ r: 4, strokeWidth: 2 }} activeDot={{ r: 6 }} />
+          )}
+          {isMulticlass && (
+            <>
+              <Line type="monotone" dataKey="dos" name="DoS" stroke="#ef4444" strokeWidth={3} dot={{ r: 4, strokeWidth: 2 }} activeDot={{ r: 6 }} />
+              <Line type="monotone" dataKey="probe" name="Probe" stroke="#3b82f6" strokeWidth={3} dot={{ r: 4, strokeWidth: 2 }} activeDot={{ r: 6 }} />
+              <Line type="monotone" dataKey="r2l" name="R2L" stroke="#f59e0b" strokeWidth={3} dot={{ r: 4, strokeWidth: 2 }} activeDot={{ r: 6 }} />
+              <Line type="monotone" dataKey="u2r" name="U2R" stroke="#8b5cf6" strokeWidth={3} dot={{ r: 4, strokeWidth: 2 }} activeDot={{ r: 6 }} />
+            </>
+          )}
         </LineChart>
       </ResponsiveContainer>
     </div>
