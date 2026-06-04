@@ -17,7 +17,8 @@ const MODELS = [
   { value: "mlp", label: "MLP Neural Network" },
   { value: "cat", label: "CatBoost" },
   { value: "ada", label: "AdaBoost" },
-  { value: "gb", label: "Gradient Boosting" }
+  { value: "gb", label: "Gradient Boosting" },
+  { value: "robust_xgb", label: "Robust Hybrid (AE + XGBoost)" }
 ];
 
 export default function Predict() {

@@ -18,7 +18,8 @@ const MULTICLASS_MODELS = [
   { value: "nb", label: "Naive Bayes Classifier" },
   { value: "lr", label: "Logistic Regression" },
   { value: "cat", label: "CatBoost Classifier" },
-  { value: "ada", label: "AdaBoost Classifier" }
+  { value: "ada", label: "AdaBoost Classifier" },
+  { value: "robust_xgb", label: "Robust Hybrid (AE + XGBoost)" }
 ];
 
 export default function PredictMulticlass() {

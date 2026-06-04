@@ -17,7 +17,8 @@ const ARENA_MODELS = [
   { id: "nb", name: "Naive Bayes", color: "#14b8a6" },
   { id: "lr", name: "Logistic Regression", color: "#a855f7" },
   { id: "cat", name: "CatBoost", color: "#f43f5e" },
-  { id: "ada", name: "AdaBoost", color: "#84cc16" }
+  { id: "ada", name: "AdaBoost", color: "#84cc16" },
+  { id: "robust_xgb", name: "Robust Hybrid (AE + XGBoost)", color: "#14b8a6" }
 ];
 
 const ATTACK_PROFILES = [

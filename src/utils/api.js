@@ -42,7 +42,8 @@ export const predictMulticlassAttack = async (payload, model) => {
     svc: "/predict/svm",
     nb: "/predict/naivebayes",
     lr: "/predict/logistic",
-    mlp: "/predict/mlp"
+    mlp: "/predict/mlp",
+    robust_xgb: "/predict/robust_xgb"
   };
 
   const endpoint = endpointMap[model] || "/predict/xgboost";
