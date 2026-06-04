@@ -12,9 +12,11 @@ const MULTICLASS_MODELS = [
   { value: "xgb", label: "XGBoost Classifier" },
   { value: "rf", label: "Random Forest (SMOTE)" },
   { value: "cnn", label: "Convolutional Neural Network (CNN)" },
+  { value: "mlp", label: "MLP Neural Network" },
   { value: "knn", label: "K-Nearest Neighbors (KNN)" },
   { value: "svc", label: "Support Vector Machine (SVM)" },
-  { value: "lr", label: "Naive Bayes Classifier" },
+  { value: "nb", label: "Naive Bayes Classifier" },
+  { value: "lr", label: "Logistic Regression" },
   { value: "cat", label: "CatBoost Classifier" },
   { value: "ada", label: "AdaBoost Classifier" }
 ];

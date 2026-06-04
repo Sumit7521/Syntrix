@@ -12,7 +12,9 @@ const MODELS = [
   { value: "dt", label: "Decision Tree" },
   { value: "knn", label: "K-Nearest Neighbors" },
   { value: "svc", label: "Vector Machine" },
+  { value: "nb", label: "Naive Bayes" },
   { value: "lr", label: "Logistic Regression" },
+  { value: "mlp", label: "MLP Neural Network" },
   { value: "cat", label: "CatBoost" },
   { value: "ada", label: "AdaBoost" },
   { value: "gb", label: "Gradient Boosting" }

@@ -11,9 +11,11 @@ const ARENA_MODELS = [
   { id: "xgb", name: "XGBoost", color: "#3b82f6" },
   { id: "rf", name: "Random Forest", color: "#8b5cf6" },
   { id: "cnn", name: "CNN Deep Learning", color: "#ec4899" },
+  { id: "mlp", name: "MLP Neural Network", color: "#f97316" },
   { id: "knn", name: "K-Nearest Neighbors", color: "#f59e0b" },
   { id: "svc", name: "Support Vector Machine", color: "#6366f1" },
-  { id: "lr", name: "Naive Bayes", color: "#14b8a6" },
+  { id: "nb", name: "Naive Bayes", color: "#14b8a6" },
+  { id: "lr", name: "Logistic Regression", color: "#a855f7" },
   { id: "cat", name: "CatBoost", color: "#f43f5e" },
   { id: "ada", name: "AdaBoost", color: "#84cc16" }
 ];
