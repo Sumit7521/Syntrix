@@ -42,7 +42,7 @@ export default function Predict() {
 
     setForm(prev => ({
       ...prev,
-      [key]: Number(value)
+      [key]: type === "select" ? value : Number(value)
     }));
   };
 
@@ -194,15 +194,27 @@ export default function Predict() {
                 <label className="tiny-label">
                     {field.key.replace(/_/g, " ")}
                 </label>
-                <input
-                type="number"
-                min={field.type === "binary" ? 0 : field.type === "rate" ? 0 : field.min}
-                max={field.type === "binary" ? 1 : field.type === "rate" ? 1 : field.max}
-                step={field.type === "rate" ? "0.01" : 1}
-                value={form[field.key] ?? 0}
-                onChange={e => handleChange(field.key, e.target.value, field.type)}
-                className="styled-input"
-                />
+                {field.type === "select" ? (
+                    <select
+                        value={form[field.key] ?? field.options[0]}
+                        onChange={e => handleChange(field.key, e.target.value, field.type)}
+                        className="styled-input"
+                    >
+                        {field.options.map(opt => (
+                            <option key={opt} value={opt}>{opt}</option>
+                        ))}
+                    </select>
+                ) : (
+                    <input
+                    type="number"
+                    min={field.type === "binary" ? 0 : field.type === "rate" ? 0 : field.min}
+                    max={field.type === "binary" ? 1 : field.type === "rate" ? 1 : field.max}
+                    step={field.type === "rate" ? "0.01" : 1}
+                    value={form[field.key] ?? 0}
+                    onChange={e => handleChange(field.key, e.target.value, field.type)}
+                    className="styled-input"
+                    />
+                )}
             </div>
             ))}
         </div>

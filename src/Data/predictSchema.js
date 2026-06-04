@@ -1,8 +1,8 @@
 export const NORMAL_DEFAULT_VALUES = {
   duration: 15,
-  protocol_type: 0,
-  service: 34,
-  flag: 1,
+  protocol_type: "tcp",
+  service: "http",
+  flag: "SF",
   src_bytes: 320,
   dst_bytes: 2100,
   land: 0,
@@ -44,9 +44,9 @@ export const NORMAL_DEFAULT_VALUES = {
 
 export const NEPTUNE_DDOS_VALUES = {
   duration: 0,
-  protocol_type: 0, // tcp
-  service: 34, // http or private
-  flag: 0, // S0 (connection attempt seen, no reply)
+  protocol_type: "tcp", // tcp
+  service: "http", // http or private
+  flag: "S0",
   src_bytes: 0,
   dst_bytes: 0,
   land: 0,
@@ -88,9 +88,9 @@ export const NEPTUNE_DDOS_VALUES = {
 
 export const SMURF_DDOS_VALUES = {
   duration: 0,
-  protocol_type: 2, // icmp
-  service: 14, // ecr_i
-  flag: 1, // SF
+  protocol_type: "icmp",
+  service: "ecr_i",
+  flag: "SF", // SF
   src_bytes: 1032,
   dst_bytes: 0,
   land: 0,
@@ -132,9 +132,9 @@ export const SMURF_DDOS_VALUES = {
 
 export const PORT_SCAN_VALUES = {
   duration: 1,
-  protocol_type: 0,
+  protocol_type: "tcp",
   service: 12, // private
-  flag: 2, // REJ
+  flag: "REJ",
   src_bytes: 0,
   dst_bytes: 0,
   land: 0,
@@ -176,9 +176,9 @@ export const PORT_SCAN_VALUES = {
 
 export const BRUTE_FORCE_VALUES = {
   duration: 60,
-  protocol_type: 0,
+  protocol_type: "tcp",
   service: 12, // ftp
-  flag: 1, // SF
+  flag: "SF", // SF
   src_bytes: 345,
   dst_bytes: 0,
   land: 0,
@@ -220,9 +220,9 @@ export const BRUTE_FORCE_VALUES = {
 
 export const ROOTKIT_VALUES = {
   duration: 120,
-  protocol_type: 0,
+  protocol_type: "tcp",
   service: 54, // telnet
-  flag: 1, // SF
+  flag: "SF", // SF
   src_bytes: 1200,
   dst_bytes: 4000,
   land: 0,
@@ -265,9 +265,9 @@ export const ROOTKIT_VALUES = {
 export const predictSchema = [
   // -------- Basic Features --------
   { key: "duration", type: "number", min: 0 },
-  { key: "protocol_type", type: "binary" }, // encoded
-  { key: "service", type: "number", min: 0 }, // encoded
-  { key: "flag", type: "binary" }, // encoded
+  { key: "protocol_type", type: "select", options: ["tcp", "udp", "icmp"] },
+  { key: "service", type: "select", options: ["aol", "auth", "bgp", "courier", "csnet_ns", "ctf", "daytime", "discard", "domain", "domain_u", "echo", "eco_i", "ecr_i", "efs", "exec", "finger", "ftp", "ftp_data", "gopher", "harvest", "hostnames", "http", "http_2784", "http_443", "http_8001", "imap4", "IRC", "iso_tsap", "klogin", "kshell", "ldap", "link", "login", "mtp", "name", "netbios_dgm", "netbios_ns", "netbios_ssn", "netstat", "nnsp", "nntp", "ntp_u", "other", "pm_dump", "pop_2", "pop_3", "printer", "private", "red_i", "remote_job", "rje", "shell", "smtp", "sql_net", "ssh", "sunrpc", "supdup", "systat", "telnet", "tftp_u", "tim_i", "time", "urh_i", "urp_i", "uucp", "uucp_path", "vmnet", "whois", "X11", "Z39_50"] },
+  { key: "flag", type: "select", options: ["OTH", "REJ", "RSTO", "RSTOS0", "RSTR", "S0", "S1", "S2", "S3", "SF", "SH"] },
   { key: "src_bytes", type: "number", min: 0 },
   { key: "dst_bytes", type: "number", min: 0 },
 
